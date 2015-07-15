@@ -12,6 +12,7 @@ $active-list-item-bg: #4372fd;
     left: 50%;
     margin-left: -340px;
     width: 680px;
+    display: none;
 
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     background-color: $main-bg-color;
@@ -63,7 +64,7 @@ $active-list-item-bg: #4372fd;
         border-right: 1px solid $secondary-gray;
         position: absolute;
         width: 290px;
-        height: 100%;
+        height: calc(100% - 55px);
         overflow: hidden;
         overflow-y: scroll;
         user-select: none;

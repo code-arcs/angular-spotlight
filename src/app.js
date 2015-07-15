@@ -1,8 +1,7 @@
-var app = angular.module('de.stekoe.spotlight.example', []);
+var app = angular.module('de.stekoe.spotlight.example', ['de.stekoe.spotlight']);
 
 app.controller('ExampleSpotlightController', function ($scope) {
 
-    $scope.searchTerm = "";
 
     $scope.search = function() {
     };
@@ -52,3 +51,4 @@ app.controller('ExampleSpotlightController', function ($scope) {
         }
     ];
 });
+
