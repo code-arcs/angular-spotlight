@@ -51,7 +51,7 @@
       width: 290px;
       height: calc(100% - 55px);
       overflow: hidden;
-      overflow-y: scroll;
+      overflow-y: auto;
       user-select: none; }
       .ng-spotlight.ng-spotlight-overlay .ng-spotlight-results-panel .ng-spotlight-results-list ul, .ng-spotlight.ng-spotlight-overlay .ng-spotlight-results-panel .ng-spotlight-results-list li {
         margin: 0px;

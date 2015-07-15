@@ -2,6 +2,7 @@ var app = angular.module('de.stekoe.spotlight.example', ['de.stekoe.spotlight'])
 
 app.controller('ExampleSpotlightController', function ($scope) {
 
+    $scope.searchTerm = "";
 
     $scope.search = function() {
     };
@@ -31,8 +32,6 @@ app.controller('ExampleSpotlightController', function ($scope) {
         {
             name: "Category 2",
             items: [
-                {name: "Result Item"},
-                {name: "Result Item"},
                 {name: "Result Item"},
                 {name: "Result Item"},
                 {name: "Result Item"},
