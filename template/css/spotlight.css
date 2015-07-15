@@ -4,6 +4,7 @@
   left: 50%;
   margin-left: -340px;
   width: 680px;
+  display: none;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   background-color: rgba(24, 24, 24, 0.95);
   color: #c6c0ba;
@@ -48,7 +49,7 @@
       border-right: 1px solid #5b5c5e;
       position: absolute;
       width: 290px;
-      height: 100%;
+      height: calc(100% - 55px);
       overflow: hidden;
       overflow-y: scroll;
       user-select: none; }

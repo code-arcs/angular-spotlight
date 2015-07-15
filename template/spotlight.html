@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <title></title>
     <link href="css/spotlight.css" type="text/css" rel="stylesheet">
-    
+
     <script src="../node_modules/jquery/dist/jquery.js"></script>
     <script src="../node_modules/angular/angular.js"></script>
     <script src="../src/app.js"></script>
+    <script src="../src/angularSpotlight.js"></script>
     <style>
         body {
             background-image: url(../src/background.jpg);
@@ -18,37 +19,7 @@
 </head>
 <body ng-app="de.stekoe.spotlight.example">
     <div ng-controller="ExampleSpotlightController">
-        <div class="ng-spotlight ng-spotlight-overlay">
-            <div class="ng-spotlight-searchbar">
-                <div class="ng-spotlight-icon">
-                    <img src="img/magnifier.svg" width="100%">
-                </div>
-                <input class="ng-spotlight-input" type="text" placeholder="Spotlight-Suche" ng-model="searchTerm" ng-change="search()">
-                <div class="ng-spotlight-input-after" ng-if="searchResults.length == 0">&mdash; Keine Ergebnisse</div>
-                <div class="ng-spotlight-info-sm">
-                    &nbsp;
-                </div>
-            </div>
-            <div class="ng-spotlight-results-panel" ng-if="searchTerm.length > 3">
-                <div class="ng-spotlight-results-list">
-                    <ul>
-                        <li ng-repeat="searchResult in searchResults" ng-init="catIndex=$index">
-                            <div class="ng-spotlight-results-list-header">{{searchResult.name}}</div>
-
-                            <ul>
-                                <li class="ng-spotlight-results-list-item" ng-class="(catIndex === 0 && $index === 0) ? 'active' : ''" ng-repeat="resultItem in searchResult.items" ng-click="showResultItem($event, resultItem)">
-                                    {{resultItem.name}}
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                <div class="ng-spotlight-results-detail">
-
-                </div>
-            </div>
-        </div>
-
+        <spotlight-overlay></spotlight-overlay>
     </div>
 </body>
 </html>
