@@ -9,12 +9,11 @@
             &nbsp;
         </div>
     </div>
-    <div class="ng-spotlight-results-panel" ng-if="searchTerm.length > 3">
-        <div class="ng-spotlight-results-list">
+    <div class="ng-spotlight-results-panel">
+        <div class="ng-spotlight-results-list" >
             <ul>
                 <li ng-repeat="searchResult in searchResults" ng-init="catIndex=$index">
                     <div class="ng-spotlight-results-list-header">{{searchResult.name}}</div>
-
                     <ul>
                         <li class="ng-spotlight-results-list-item" ng-class="(catIndex === 0 && $index === 0) ? 'active' : ''" ng-repeat="resultItem in searchResult.items" ng-click="showResultItem($event, resultItem)">
                             {{resultItem.name}}
@@ -24,7 +23,7 @@
             </ul>
         </div>
         <div class="ng-spotlight-results-detail">
-
+            {{resultItem}}
         </div>
     </div>
 </div>

@@ -69,7 +69,12 @@ $active-list-item-bg: #4372fd;
         overflow-y: auto;
         user-select: none;
 
+        ul {
+          min-height: calc(100% - 55px);
+        }
+
         ul, li {
+          width: 100%;
           margin: 0px;
           padding: 0px;
           list-style-type: none;
