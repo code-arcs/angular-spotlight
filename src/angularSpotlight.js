@@ -28,7 +28,7 @@ angular.module('de.stekoe.angular.spotlight', [])
                     currentItem.closest('.ng-spotlight-results-list').find('li').removeClass('active');
                     currentItem.addClass('active');
 
-                    $scope.resultItem = b;
+                    $scope.selectedItem = b;
                 };
 
                 $scope.selectPreviousEntry = function () {
@@ -40,7 +40,7 @@ angular.module('de.stekoe.angular.spotlight', [])
                         $(resultItems.get(idx)).removeClass('active');
                         $(resultItems.get(idx - 1)).addClass('active');
 
-                        $scope.resultItem = getResultItemFromSearchResults(idx - 1);
+                        $scope.selectedItem = getResultItemFromSearchResults(idx - 1);
                         $scope.$apply();
                     }
                 };
@@ -64,7 +64,7 @@ angular.module('de.stekoe.angular.spotlight', [])
                             resultsList.scrollTop(resultsList.scrollTop() + Math.abs(a - b));
                         }
 
-                        $scope.resultItem = getResultItemFromSearchResults(idx + 1);
+                        $scope.selectedItem = getResultItemFromSearchResults(idx + 1);
                         $scope.$apply();
                     }
                 };
@@ -175,8 +175,8 @@ angular.module('de.stekoe.angular.spotlight', [])
             restrict: "E",
             link: function ($scope, element) {
                 $scope.$watch('resultItem', function () {
-                    if ($scope.resultItem) {
-                        element.html(getTemplate($scope.resultItem.type)).show();
+                    if ($scope.selectedItem) {
+                        element.html(getTemplate($scope.selectedItem.type)).show();
                     }
                 });
             }

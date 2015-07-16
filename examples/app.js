@@ -5,7 +5,7 @@ angular.module('de.stekoe.angular.spotlight.example', ['de.stekoe.angular.spotli
                 name: result.title,
                 description: result.snippet,
                 updatedOn: result.timestamp,
-                type: 'wikipedia'
+                type: 'wikipedi'+result.title[0].toLowerCase()
             }
         }
 

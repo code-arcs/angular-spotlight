@@ -60,7 +60,6 @@ $font-family: Verdana, 'Lucida Sans Unicode', sans-serif !default;
         svg {
           fill: $icon-magnifier-color;
         }
-
       }
 
       .ng-spotlight-input {
@@ -92,6 +91,16 @@ $font-family: Verdana, 'Lucida Sans Unicode', sans-serif !default;
 
       .ng-spotlight-input-after {
         line-height: 55px;
+      }
+
+      .ng-spotlight-results-icon {
+        position: absolute;
+        top: (55px - 32px)/2;
+        right: 20px;
+        line-height: 55px;
+        height: 32px;
+        width: 32px;
+        background-size: cover;
       }
     }
     .ng-spotlight-results-panel {
