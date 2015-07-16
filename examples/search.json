@@ -1,22 +1,8 @@
 [
-  {
-    "name": "Category 1",
-    "items": [
-      {"name": "Result Item", "type": "Folder"},
-      {"name": "Result Item", "type": "Folder"},
-      {"name": "Result Item", "type": "Folder"},
-      {"name": "Result Item", "type": "Folder"},
-      {"name": "Result Item", "type": "Folder"},
-      {"name": "Result Item"}
-    ]
-  },
-  {
-    "name": "Category 2",
-    "items": [
-      {"name": "Result Item"},
-      {"name": "Result Item"},
-      {"name": "Result Item"},
-      {"name": "Result Item"}
-    ]
-  }
+  {"name": "Result Item", "type": "Folder"},
+  {"name": "Result Item", "type": "Folder"},
+  {"name": "Result Item", "type": "Folder"},
+  {"name": "Result Item", "type": "Folder"},
+  {"name": "Result Item", "type": "Folder"},
+  {"name": "Result Item"}
 ]

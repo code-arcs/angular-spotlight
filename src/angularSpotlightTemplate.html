@@ -10,15 +10,14 @@
 	C121.385,177.841,75.617,177.841,47.388,149.612z"/>
             </svg>
         </div>
-        <input class="ng-spotlight-input" type="text" placeholder="Spotlight-Suche" ng-model="searchTerm"
-               ng-change="search()"/>
+        <input class="ng-spotlight-input" type="text" placeholder="Spotlight-Suche" ng-model="searchTerm" ng-change="search()"/>
 
         <div class="ng-spotlight-input-after" ng-if="searchResults.length == 0">&mdash; Keine Ergebnisse</div>
         <div class="ng-spotlight-info-sm">
             &nbsp;
         </div>
     </div>
-    <div class="ng-spotlight-results-panel">
+    <div class="ng-spotlight-results-panel" ng-if="searchTerm && searchTerm.length > 0">
         <div class="ng-spotlight-results-list">
             <ul>
                 <li ng-repeat="searchResult in searchResults" ng-init="catIndex=$index">
@@ -27,6 +26,7 @@
                         <li class="ng-spotlight-results-list-item"
                             ng-class="(catIndex === 0 && $index === 0) ? 'active' : ''"
                             ng-repeat="resultItem in searchResult.items" ng-click="showResultItem($event, resultItem)">
+                            <img ng-src="{{getIconForType(resultItem.type)}}">
                             {{resultItem.name}}
                         </li>
                     </ul>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
-   <link href="../dist/lightTheme.min.css" type="text/css" rel="stylesheet">
+   <link href="../dist/darkTheme.min.css" type="text/css" rel="stylesheet">
 
     <script src="../node_modules/jquery/dist/jquery.js"></script>
 
@@ -17,9 +17,17 @@
             background-size: cover;
             background-repeat: no-repeat;
         }
+        .keyboard {
+            width: 400px;
+            margin: 0 auto;
+            text-align: center;
+        }
     </style>
 </head>
 <body ng-app="de.stekoe.angular.spotlight.example">
+        <div class="keyboard">
+            Press Ctrl + Space
+        </div>
         <spotlight-overlay></spotlight-overlay>
 </body>
 </html>
