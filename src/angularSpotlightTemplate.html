@@ -1,21 +1,39 @@
 <div class="ng-spotlight ng-spotlight-overlay">
     <div class="ng-spotlight-searchbar">
         <div class="ng-spotlight-icon">
-            <img src="magnifier.svg" width="100%">
+            <svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 185.713 185.714" enable-background="new 0 0 185.713 185.714" xml:space="preserve">
+                <g>
+                    <path  d="M6.194,109.096C2.065,99.386,0,89.213,0,78.572c0-10.64,2.065-20.815,6.194-30.525
+                        c4.129-9.709,9.709-18.08,16.741-25.111c7.032-7.031,15.402-12.612,25.112-16.742C57.757,2.064,67.93,0,78.571,0
+                        c10.64,0,20.815,2.065,30.526,6.194c9.709,4.129,18.079,9.71,25.11,16.741c7.03,7.031,12.61,15.402,16.739,25.111
+                        c4.132,9.71,6.195,19.885,6.195,30.525c0,16.37-4.615,31.214-13.84,44.531l38.281,38.28c2.752,2.752,4.129,6.101,4.129,10.045
+                        c0,3.867-1.414,7.216-4.24,10.045c-2.828,2.826-6.176,4.24-10.045,4.24c-4.018,0-7.365-1.414-10.045-4.24l-38.281-38.17
+                        c-13.318,9.227-28.162,13.839-44.531,13.839c-10.641,0-20.814-2.065-30.524-6.194s-18.081-9.709-25.112-16.74
+                        C15.903,127.173,10.324,118.806,6.194,109.096z M43.248,43.248c-9.785,9.785-14.676,21.559-14.676,35.324
+                        c0,13.766,4.892,25.541,14.676,35.324c9.783,9.785,21.558,14.676,35.324,14.676c13.765,0,25.539-4.892,35.324-14.676
+                        c9.783-9.783,14.676-21.558,14.676-35.324c0-13.765-4.893-25.539-14.676-35.324c-9.785-9.783-21.559-14.676-35.324-14.676
+                        C64.805,28.572,53.031,33.465,43.248,43.248z"/>
+                </g>
+            </svg>
+
         </div>
-        <input class="ng-spotlight-input" type="text" placeholder="Spotlight-Suche" ng-model="searchTerm" ng-change="search()" />
+        <input class="ng-spotlight-input" type="text" placeholder="Spotlight-Suche" ng-model="searchTerm"
+               ng-change="search()"/>
+
         <div class="ng-spotlight-input-after" ng-if="searchResults.length == 0">&mdash; Keine Ergebnisse</div>
         <div class="ng-spotlight-info-sm">
             &nbsp;
         </div>
     </div>
     <div class="ng-spotlight-results-panel">
-        <div class="ng-spotlight-results-list" >
+        <div class="ng-spotlight-results-list">
             <ul>
                 <li ng-repeat="searchResult in searchResults" ng-init="catIndex=$index">
                     <div class="ng-spotlight-results-list-header">{{searchResult.name}}</div>
                     <ul>
-                        <li class="ng-spotlight-results-list-item" ng-class="(catIndex === 0 && $index === 0) ? 'active' : ''" ng-repeat="resultItem in searchResult.items" ng-click="showResultItem($event, resultItem)">
+                        <li class="ng-spotlight-results-list-item"
+                            ng-class="(catIndex === 0 && $index === 0) ? 'active' : ''"
+                            ng-repeat="resultItem in searchResult.items" ng-click="showResultItem($event, resultItem)">
                             {{resultItem.name}}
                         </li>
                     </ul>

@@ -1,9 +1,9 @@
-$main-bg-color: rgba(24, 24, 24, 0.95);
+$main-bg-color: rgba(24, 24, 24, 0.95) !default;
 
-$primary-font-color: #fff;
-$secondary-font-color: #c6c0ba;
-$secondary-gray: #5b5c5e;
-$active-list-item-bg: #4372fd;
+$primary-font-color: #fff !default;
+$secondary-font-color: #c6c0ba !default;
+$secondary-gray: #5b5c5e !default;
+$active-list-item-bg: #4372fd !default;
 
 .ng-spotlight {
   &.ng-spotlight-overlay {
@@ -31,6 +31,11 @@ $active-list-item-bg: #4372fd;
         width: 25px;
         margin: 15px 15px;
         background-size: cover;
+
+        svg{
+          fill: $primary-font-color;
+        }
+
       }
 
       .ng-spotlight-input {

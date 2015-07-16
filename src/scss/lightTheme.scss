@@ -1,0 +1,40 @@
+$main-bg-color: rgba(239, 224, 220, 0.95);
+
+$primary-font-color: #141414;
+$secondary-font-color: #5f5953;
+$secondary-gray: rgba(249, 231, 223, 0.95);
+$active-list-item-bg: #1168dd;
+
+@import "_angularSpotlight";
+
+.ng-spotlight {
+  &.ng-spotlight-overlay {
+
+    .ng-spotlight-searchbar {
+      border-bottom: 1px solid #c4c4c4;
+
+      .ng-spotlight-icon{
+
+        svg{
+          fill: #7a6c5f
+        }
+
+      }
+    }
+    .ng-spotlight-results-panel{
+
+      .ng-spotlight-results-list {
+        border-right: 1px solid #c4c4c4;
+        .ng-spotlight-results-list-header{
+          background-color: rgba(220, 220, 220, 0.98);
+        }
+        .ng-spotlight-results-list-item {
+          &.active {
+            color: $secondary-gray;
+          }
+        }
+      }
+    }
+  }
+}
+
