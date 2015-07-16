@@ -1,9 +1,25 @@
-$main-bg-color: rgba(24, 24, 24, 0.95) !default;
+// Le background colors
+$alpha: 0.97;
+$results-list-bg: rgba(#363739, $alpha) !default;
+$results-detail-bg: rgba(#373739, $alpha) !default;
+$searchbar-bg: rgba(#363839, $alpha) !default;
+$result-list-header-bg: #484645 !default;
+$active-active-list-item-bg: #337ef1 !default;
+$icon-magnifier-color: #a6a6a6 !default;
 
-$primary-font-color: #fff !default;
-$secondary-font-color: #c6c0ba !default;
-$secondary-gray: #5b5c5e !default;
-$active-list-item-bg: #4372fd !default;
+// Font colors
+$results-detail-font-color: #ffffff !default;
+$searchbar-input-font-color: #ffffff !default;
+$result-list-header-font-color: #ffffff !default;
+$placeholder-font-color: #a6a6a6 !default;
+$result-list-item-font-color: #ffffff !default;
+$result-list-item-hover-font-color: #ffffff !default;
+
+// Colors for borders
+$searchbar-border-color: #515253 !default;
+$results-list-border-color: #515253 !default;
+
+$font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !default;
 
 .ng-spotlight {
   &.ng-spotlight-overlay {
@@ -14,26 +30,28 @@ $active-list-item-bg: #4372fd !default;
     width: 680px;
     display: none;
 
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    background-color: $main-bg-color;
-    color: $secondary-font-color;
-    box-shadow: 10px 20px 50px #0f0f0f;
+    font-family: $font-family;
+    box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
     border-radius: 6px;
     overflow: hidden;
 
     .ng-spotlight-searchbar {
       position: static;
       height: 55px;
+      background-color: $searchbar-bg;
 
       .ng-spotlight-icon {
+        $magnifier-height: 22px;
+        $magnifier-margin: (55 - $magnifier-height) / 2;
+
         float: left;
-        height: 25px;
-        width: 25px;
-        margin: 15px 15px;
+        height: 22px;
+        width: 22px;
+        margin: $magnifier-margin;
         background-size: cover;
 
-        svg{
-          fill: $primary-font-color;
+        svg {
+          fill: $icon-magnifier-color;
         }
 
       }
@@ -44,17 +62,25 @@ $active-list-item-bg: #4372fd !default;
         font-size: 1.7em;
         padding: 0;
         margin: 0;
-        outline: none;
+        outline: none !important;
         height: 55px;
         width: 400px;
-        border: none;
-        color: $primary-font-color;
+        border: none !important;
+        color: $searchbar-input-font-color;
         font-weight: 100;
 
-        &::-ms-input-placeholder { color: $secondary-font-color; }
-        &:-moz-placeholder{ color: $secondary-font-color; }
-        &::-moz-placeholder{ color: $secondary-font-color; }
-        &::-webkit-input-placeholder { color: $secondary-font-color; }
+        &:-ms-input-placeholder {
+          color: $placeholder-font-color;
+        }
+        &:-moz-placeholder {
+          color: $placeholder-font-color;
+        }
+        &::-moz-placeholder {
+          color: $placeholder-font-color;
+        }
+        &::-webkit-input-placeholder {
+          color: $placeholder-font-color;
+        }
       }
 
       .ng-spotlight-input-after {
@@ -63,16 +89,17 @@ $active-list-item-bg: #4372fd !default;
     }
     .ng-spotlight-results-panel {
       min-height: 375px;
-      border-top: 1px solid $secondary-gray;
+      border-top: 1px solid $searchbar-border-color;
 
       .ng-spotlight-results-list {
-        border-right: 1px solid $secondary-gray;
+        border-right: 1px solid $results-list-border-color;
         position: absolute;
         width: 290px;
         height: calc(100% - 55px);
         overflow: hidden;
         overflow-y: auto;
         user-select: none;
+        background-color: $results-list-bg;
 
         ul {
           min-height: calc(100% - 55px);
@@ -80,34 +107,37 @@ $active-list-item-bg: #4372fd !default;
 
         ul, li {
           width: 100%;
-          margin: 0px;
-          padding: 0px;
+          margin: 0;
+          padding: 0;
           list-style-type: none;
         }
 
         .ng-spotlight-results-list-header {
-          font-size: 0.6em;
-          background-color: $secondary-gray;
-          color: $primary-font-color;
+          font-size: 13px;
+          background-color: $result-list-header-bg;
+          color: $result-list-header-font-color;
           text-transform: uppercase;
-          padding: 2px 0 2px 25px;
-          letter-spacing: 1px;
+          padding: 4px 0 2px 25px;
         }
 
         .ng-spotlight-results-list-item {
-          font-size: 0.8em;
-          color: $primary-font-color;
+          font-size: 13px;
+          color: $result-list-item-font-color;
           padding: 6px 0 6px 50px;
           cursor: pointer;
 
           &.active {
-            background-color: $active-list-item-bg;
+            color: $result-list-item-hover-font-color;
+            background-color: $active-active-list-item-bg;
           }
         }
       }
       .ng-spotlight-results-detail {
         margin-left: 290px;
         width: 390px;
+        height: 375px;
+        color: $results-detail-font-color;
+        background-color: $results-detail-bg;
       }
     }
   }

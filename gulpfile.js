@@ -15,7 +15,7 @@ gulp.task('copy:static', function () {
         .pipe(gulp.dest('./dist/'));
 });
 
-gulp.task('html', function () {
+gulp.task('compile:angular:template', function () {
     return gulp.src('src/angularSpotlightTemplate.html')
         .pipe(angularTemplates({module: 'de.stekoe.angular.spotlight'}))
         .pipe(gulp.dest('./src/'));
@@ -33,7 +33,7 @@ gulp.task('watch:sass', function () {
     return gulp.watch('./src/**/*.scss', ['compile:sass']);
 });
 
-gulp.task('compile:js', ['html'], function() {
+gulp.task('compile:js', ['compile:angular:template'], function() {
     return gulp.src('./src/**/*.js')
         .pipe(concat('angularSpotlight.min.js'))
         .pipe(gulp.dest('./dist/'));

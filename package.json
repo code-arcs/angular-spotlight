@@ -11,6 +11,7 @@
   "license": "Apache 2.0",
   "devDependencies": {
     "del": "^1.2.0",
+    "gulp-angular-templates": "0.0.2",
     "gulp-concat": "^2.6.0",
     "gulp-minify-css": "^1.2.0",
     "gulp": "^3.9.0",

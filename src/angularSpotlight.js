@@ -1,11 +1,12 @@
 angular.module('de.stekoe.angular.spotlight', [])
-    .directive('spotlightOverlay', function ($http) {
+    .directive('spotlightOverlay', function ($http, $compile) {
         const KEY_UP = 40;
         const KEY_DOWN = 38;
         const CTRL = 17;
         const SPACE = 32;
 
-        var $ngSpotlightElement;
+        var $ngSpotlightElement,
+            $ngSpotlightDetailPanel;
 
         return {
             restrict: 'E',
@@ -33,7 +34,7 @@ angular.module('de.stekoe.angular.spotlight', [])
                         $(resultItems.get(idx)).removeClass('active');
                         $(resultItems.get(idx - 1)).addClass('active');
 
-                        $scope.resultItem = JSON.stringify(getResultItemFromSearchResults(idx - 1));
+                        $scope.resultItem = getResultItemFromSearchResults(idx - 1);
                         $scope.$apply();
                     }
                 };
@@ -44,10 +45,20 @@ angular.module('de.stekoe.angular.spotlight', [])
                     var idx = getCurrentEntryIndex(resultItems);
 
                     if (idx + 1 < resultItems.length) {
-                        $(resultItems.get(idx)).removeClass('active');
-                        $(resultItems.get(idx + 1)).addClass('active');
+                        var currentItem = $(resultItems.get(idx));
+                        currentItem.removeClass('active');
 
-                        $scope.resultItem = JSON.stringify(getResultItemFromSearchResults(idx + 1));
+                        var nextItem = $(resultItems.get(idx + 1));
+                        nextItem.addClass('active');
+
+                        var a = nextItem.position().top + currentItem.outerHeight();
+                        var b = resultsList.scrollTop() + resultsList.height();
+
+                        if(a >= b) {
+                            resultsList.scrollTop(resultsList.scrollTop() + Math.abs(a - b));
+                        }
+
+                        $scope.resultItem = getResultItemFromSearchResults(idx + 1);
                         $scope.$apply();
                     }
                 };
@@ -75,6 +86,7 @@ angular.module('de.stekoe.angular.spotlight', [])
             },
             link: function ($scope, element) {
                 $ngSpotlightElement = $(element);
+                $ngSpotlightDetailPanel = $ngSpotlightElement.find('.ng-spotlight-results-detail');
 
                 $(document).keydown(function (e) {
                     if (e.ctrlKey && e.keyCode === SPACE) {
@@ -87,14 +99,55 @@ angular.module('de.stekoe.angular.spotlight', [])
                     }
 
                     if (e.keyCode === KEY_DOWN) {
+                        e.preventDefault();
                         $scope.selectPreviousEntry();
                     }
 
                     if (e.keyCode === KEY_UP) {
+                        e.preventDefault();
                         $scope.selectNextEntry();
                     }
                 });
             },
             templateUrl: 'angularSpotlightTemplate.html'
+        };
+    })
+    .directive('spotlightDetails', function($compile) {
+
+        var imageTemplate = '<div class="entry-photo"><h2>&nbsp;</h2><div class="entry-img"><span><a href="{{rootDirectory}}{{content.data}}"><img ng-src="{{rootDirectory}}{{content.data}}" alt="entry photo"></a></span></div><div class="entry-text"><div class="entry-title">{{content.title}}</div><div class="entry-copy">{{content.description}}</div></div></div>';
+        var videoTemplate = '<div class="entry-video"><h2>&nbsp;</h2><div class="entry-vid"><iframe ng-src="{{content.data}}" width="280" height="200" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div><div class="entry-text"><div class="entry-title">{{content.title}}</div><div class="entry-copy">{{content.description}}</div></div></div>';
+        var noteTemplate = '<div class="entry-note"><h2>&nbsp;</h2><div class="entry-text"><div class="entry-title">{{content.title}}</div><div class="entry-copy">{{content.data}}</div></div></div>';
+        var defaultTemplate = '<div class="">Name <span>{{resultItem.name | json}}</span><br>{{resultItem  | json}}<br>{{resultItem.type}}</div>';
+
+        var getTemplate = function(contentType) {
+            var template = '';
+
+            switch(contentType) {
+                case 'image':
+                    template = imageTemplate;
+                    break;
+                case 'video':
+                    template = videoTemplate;
+                    break;
+                case 'notes':
+                    template = noteTemplate;
+                    break;
+                default:
+                    template = defaultTemplate;
+            }
+
+            return template;
+        }
+
+        return {
+            restrict: "E",
+            link: function($scope, element) {
+                $scope.$watch('resultItem', function() {
+                    if($scope.resultItem) {
+                        element.html(getTemplate($scope.resultItem.type)).show();
+                        console.log($scope.resultItem);
+                    }
+                });
+            }
         };
     });
