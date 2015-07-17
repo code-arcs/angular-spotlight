@@ -106,6 +106,7 @@ angular.module('de.stekoe.angular.spotlight', [])
 
                 $(document).keydown(function (e) {
                     if (e.ctrlKey && e.keyCode === SPACE) {
+                        e.preventDefault();
                         spotlightOverlay.toggle();
                         if (spotlightOverlay.is(':visible')) {
                             spotlightOverlay.find('input')
