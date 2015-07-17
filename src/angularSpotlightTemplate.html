@@ -12,23 +12,26 @@
         </div>
         <input class="ng-spotlight-input" type="text" placeholder="Spotlight-Suche" ng-model="searchTerm" ng-change="search()"/>
 
-        <div class="ng-spotlight-input-after" ng-if="searchResults.length == 0">&mdash; Keine Ergebnisse</div>
+        <div class="ng-spotlight-input-after" ng-if="searchInputInfo && searchInputInfo.length > 0">&mdash; {{searchInputInfo}}</div>
         <div class="ng-spotlight-results-icon">
-            <img ng-src="{{getIconForType(selectedItem.type)}}">
+            <spotlight-result-icon selected-item="selectedItem"></spotlight-result-icon>
         </div>
     </div>
-    <div class="ng-spotlight-results-panel" ng-if="searchTerm && searchTerm.length > 0">
+    <div class="ng-spotlight-results-panel" ng-if="searchTerm && searchTerm.length > 0 && searchResultCount() > 0">
         <div class="ng-spotlight-results-list">
             <ul>
-                <li ng-repeat="searchResult in searchResults" ng-init="catIndex=$index">
+                <li class="ng-spotlight-results-category" ng-repeat="searchResult in searchResults" ng-init="catIndex=$index">
                     <div class="ng-spotlight-results-list-header">{{searchResult.name}}</div>
                     <ul>
                         <li class="ng-spotlight-results-list-item"
-                            ng-class="(catIndex === 0 && $index === 0) ? 'active' : ''"
+                            ng-class="{'active': selectedItem.name == resultItem.name}"
                             ng-repeat="resultItem in searchResult.items"
                             ng-click="showResultItem($event, resultItem)">
-                            <img ng-src="{{getIconForType(resultItem.type)}}">
+                            <spotlight-result-icon type="{{resultItem.type || 'default'}}"></spotlight-result-icon>
                             {{resultItem.name}}
+                            <span class="info" ng-if="resultItem.info">
+                                &ndash; {{resultItem.info}}
+                            </span>
                         </li>
                     </ul>
                 </li>

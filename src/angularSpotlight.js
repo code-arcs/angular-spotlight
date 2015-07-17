@@ -1,8 +1,9 @@
 angular.module('de.stekoe.angular.spotlight', [])
-    .directive('spotlightOverlay', function ($http, $compile, AngularSpotlight) {
+    .directive('spotlightOverlay', function ($timeout, $http, $compile, AngularSpotlight) {
         const KEY_UP = 40;
         const KEY_DOWN = 38;
         const SPACE = 32;
+        const KEY_ESC = 27;
 
         var $ngSpotlightElement,
             $ngSpotlightDetailPanel,
@@ -14,17 +15,28 @@ angular.module('de.stekoe.angular.spotlight', [])
                 $scope.searchResultsCount = 0;
                 $scope.searchResults = [];
                 $scope.selectedItem = undefined;
+                $scope.searchInputInfo = undefined;
 
                 $scope.search = function () {
                     AngularSpotlight.search($scope.searchTerm)
                         .then(function setSearchResult(resp) {
+                            growInputField();
+
+                            $scope.selectedItem = undefined;
                             $scope.searchResults = resp;
-                            $scope.searchResultsCount = $scope.searchResults
-                                .map(function (searchResult) {
-                                    return searchResult.items.length;
-                                }).reduce(function (prev, cur) {
+                            $scope.searchResultsCount = Object.keys($scope.searchResults)
+                                .map(function (key) {
+                                    return $scope.searchResults[key].items.length;
+                                })
+                                .reduce(function (prev, cur) {
                                     return prev + cur;
                                 }, 0);
+
+                            $timeout(function() {
+                                if(!$scope.selectedItem)  {
+                                    selectItemAtIndex(0, false);
+                                }
+                            }, 20);
                         });
                 };
 
@@ -34,53 +46,98 @@ angular.module('de.stekoe.angular.spotlight', [])
 
                 $scope.showResultItem = function (event, b) {
                     var currentItem = $(event.currentTarget);
-                    currentItem.closest('.ng-spotlight-results-list')
-                        .find('li')
-                        .removeClass('active');
+                    var categoryName = currentItem.closest('.ng-spotlight-results-category').find('.ng-spotlight-results-list-header').text();
 
+                    currentItem.closest('.ng-spotlight-results-list')
+                        .find('.ng-spotlight-results-list-item')
+                        .removeClass('active');
                     currentItem.addClass('active');
 
                     $scope.selectedItem = b;
+                    setSearchInputInfo(categoryName);
                 };
 
                 $scope.selectPreviousEntry = function () {
                     var idx = getSelectedItemIndex();
                     if (idx - 1 >= 0) {
-                        selectItemAtIndex(idx - 1)
+                        selectItemAtIndex(idx - 1, true)
                     }
                 };
 
                 $scope.selectNextEntry = function () {
                     var idx = getSelectedItemIndex();
                     if (idx + 1 < $scope.searchResultsCount) {
-                        selectItemAtIndex(idx + 1);
+                        selectItemAtIndex(idx + 1, true);
                     }
                 };
 
-                function selectItemAtIndex(idx) {
+                $scope.resetSearch = function() {
+                    $ngSpotlightElement.find('.ng-spotlight-input').val('');
+                    $scope.searchResultsCount = 0;
+                    $scope.searchResults = [];
+                    $scope.selectedItem = undefined;
+                    $scope.searchInputInfo = undefined;
+                    $scope.searchTerm = "";
+                    $scope.$apply();
+
+                    $ngSpotlightElement.find('.ng-spotlight-input').width(400);
+                };
+
+                $scope.searchResultCount = function() {
+                    return Object.keys($scope.searchResults).length;
+                }
+
+                function growInputField() {
+                    $ngSpotlightElement.find('.ng-spotlight-input').autoGrowInput({
+                        maxWidth: 400,
+                        minWidth: 10,
+                        comfortZone: 15
+                    });
+                }
+
+                function selectItemAtIndex(idx, performApply) {
                     var resultsList = $ngSpotlightElement.find('.ng-spotlight-results-list');
                     var resultItems = resultsList.find('li.ng-spotlight-results-list-item');
-                    resultItems.removeClass('active');
+                    var newActiveItem = $(resultItems.get(idx));
+                    var categoryName = newActiveItem.closest('.ng-spotlight-results-category').find('.ng-spotlight-results-list-header').text();
 
-                    $(resultItems.get(idx)).addClass('active');
+                    resultItems.removeClass('active');
+                    newActiveItem.addClass('active');
 
                     $scope.selectedItem = getResultItemFromSearchResults(idx);
-                    $scope.$apply();
+                    setSearchInputInfo(categoryName);
+
+                    if(performApply) {
+                        $scope.$apply();
+                    }
+                }
+
+                function setSearchInputInfo(categoryName) {
+                    $scope.searchInputInfo = undefined;
+                    if($scope.searchTerm.length === 0) {
+                        $scope.searchInputInfo = undefined;
+                    } else if($scope.selectedItem) {
+                        $scope.searchInputInfo = $scope.selectedItem.name + " - " + categoryName;
+                    } else if($scope.searchResultCount() === 0) {
+                        $scope.searchInputInfo = "Keine Ergebnisse";
+                    }
                 }
 
                 function getResultItemFromSearchResults(idx) {
-                    var resultItems = $scope.searchResults.map(function (category) {
-                        return category.items;
-                    }).reduce(function (prev, cur) {
-                        return prev.concat(cur);
-                    }, []);
+                    var resultItems = Object.keys($scope.searchResults)
+                        .map(function (key) {
+                            return $scope.searchResults[key].items;
+                        })
+                        .reduce(function (prev, cur) {
+                            return prev.concat(cur);
+                        }, []);
                     return resultItems[idx];
                 }
 
                 function getSelectedItemIndex() {
                     var resultsList = $ngSpotlightElement.find('.ng-spotlight-results-list');
                     var resultItems = resultsList.find('li.ng-spotlight-results-list-item');
-                    var activeIndex = 0;
+                    var activeIndex = -1;
 
                     resultItems.each(function (idx, elem) {
                         if ($(elem).hasClass('active')) {
@@ -98,8 +155,9 @@ angular.module('de.stekoe.angular.spotlight', [])
                 $ngSpotlightDetailPanel = $ngSpotlightElement.find('.ng-spotlight-results-detail');
                 $ngSpotlightResultsPanel = $ngSpotlightElement.find('.ng-spotlight-results-panel');
 
-                $(document).click(function(e) {
-                    if(!e.target.closest('.ng-spotlight')) {
+                $(document).click(function (e) {
+                    console.log();
+                    if ($(e.target).closest('.ng-spotlight').length === 0) {
                         spotlightOverlay.hide();
                     }
                 });
@@ -116,6 +174,11 @@ angular.module('de.stekoe.angular.spotlight', [])
                         }
                     }
 
+                    if(e.keyCode === KEY_ESC) {
+                        e.preventDefault();
+                        $scope.resetSearch();
+                    }
+
                     if (e.keyCode === KEY_DOWN) {
                         e.preventDefault();
                         $scope.selectPreviousEntry();
@@ -130,66 +193,127 @@ angular.module('de.stekoe.angular.spotlight', [])
             templateUrl: 'angularSpotlightTemplate.html'
         };
     })
-    .provider("AngularSpotlight", function () {
-        var icons = {
-            'default': 'data:image/svg+xml;utf8,<svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve"> <path fill="#FFFFFF" d="M14,2H6C4.9,2,4.01,2.9,4.01,4L4,20c0,1.1,0.89,2,1.99,2H18c1.1,0,2-0.9,2-2V8L14,2z"/> <polygon points="13.125,9.312 13.125,3.812 18.625,9.312 "/> </svg> '
+    .directive('spotlightResultIcon', function($compile, AngularSpotlight) {
+        var iconTemplates = {
+            'url': '<img class="ng-spotlight-item-icon" ng-src="{{iconDescriptor.data}}">',
+            'css': '<div class="ng-spotlight-item-icon" ng-class="iconDescriptor.data"></div>'
         };
+
+        return {
+            restrict: "E",
+            scope: {
+                selectedItem : '='
+            },
+            link: function(scope, element, attrs) {
+                if(attrs.type) {
+                    updateResultIcon(AngularSpotlight.getIconDescriptorForType(attrs.type));
+                } else  {
+                    scope.$watch('selectedItem', function() {
+                        if(scope.selectedItem) {
+                            updateResultIcon(AngularSpotlight.getIconDescriptorForType(scope.selectedItem.type));
+                        } else {
+                            element.html("");
+                        }
+                    })
+                }
+
+                function updateResultIcon(iconDescriptor) {
+                    var iconTemplate = iconTemplates[iconDescriptor.type];
+                    element.html(iconTemplate).show();
+                    $compile(element.contents())(scope);
+                    scope.iconDescriptor = iconDescriptor;
+                }
+            }
+        }
+    })
+    .directive('spotlightDetails', function ($compile, AngularSpotlight) {
+        return {
+            restrict: "E",
+            link: function (scope, element) {
+                scope.$watch('selectedItem', function () {
+                    if (scope.selectedItem) {
+                        element.html(AngularSpotlight.getTemplateForType(scope.selectedItem.type)).show();
+                        $compile(element.contents())(scope);
+                    }
+                });
+            }
+        };
+    })
+    .provider("AngularSpotlight", function () {
+        var _iconConfig = iconConfig();
+        var _detailsTemplateConfig = detailsTemplateConfig();
 
         this.search = function () {
             throw "You have to implement a search function using AngularSpotlightProvider!";
         };
 
-        this.setIconForType = function (type, dataUrl) {
-            icons[type] = dataUrl;
-        };
+        this.addIcons = _iconConfig.addIcons;
+        this.addTemplates = _detailsTemplateConfig.addTemplates;
 
         this.$get = function ($http) {
             var that = this;
             return {
                 search: that.search($http),
-                getIconForType: function (type) {
-                    return icons[type] || icons['default'];
-                }
+                getIconDescriptorForType: _iconConfig.getIconForType,
+                getTemplateForType: _detailsTemplateConfig.getTemplateForType
             };
         };
-    })
-    .directive('spotlightDetails', function ($compile) {
-        var defaultTemplate   = '   <div class="ng-spotlight-results-detail-default">{{selectedItem.name}}</div>';
-        var wikipediaTemplate = '   <div class="ng-spotlight-results-detail-wikipedia">\
-                                        <div class="title">{{selectedItem.name}}</div>\
-                                        <div class="description">{{selectedItem.description}}</div>\
-                                        <div class="footer">\
-                                            <dl>\
-                                                <dt>{{"Last update"}}</dt><dd>{{selectedItem.updatedOn | date}}</dd>\
-                                                <dt>{{"Word count"}}</dt><dd>{{selectedItem.wordcount}}</dd>\
-                                                <dt>{{"Size"}}</dt><dd>{{selectedItem.size}}</dd>\
-                                            </dl>\
-                                        </div>\
-                                    </div>';
 
-        var getTemplate = function (contentType) {
-            var template = '';
+        function iconConfig() {
+            var icons = {
+                'default': 'fa fa-file'
+            };
 
-            switch (contentType) {
-                case 'wikipedia':
-                    template = wikipediaTemplate;
-                    break;
-                default:
-                    template = defaultTemplate;
+            function addIcons(iconDescriptors) {
+                Object.keys(iconDescriptors)
+                    .forEach(function(iconKey) {
+                        icons[iconKey] = iconDescriptors[iconKey];
+                    });
             }
 
-            return template;
-        };
+            function getIconForType(type) {
+                var icon = icons[type] || icons['default'];
 
-        return {
-            restrict: "E",
-            link: function ($scope, element) {
-                $scope.$watch('selectedItem', function () {
-                    if ($scope.selectedItem) {
-                        element.html(getTemplate($scope.selectedItem.type)).show();
-                        $compile(element.contents())($scope);
+                return {
+                    data: icon,
+                    type: guessType(icon)
+                };
+
+                function guessType(icon) {
+                    var icon = icon.toLowerCase();
+                    if(icon.indexOf('http') === 0 || icon.indexOf('data:') === 0) {
+                        return 'url';
+                    } else {
+                        return 'css';
                     }
-                });
+                }
             }
-        };
+
+            return {
+                addIcons: addIcons,
+                getIconForType: getIconForType
+            }
+        }
+
+        function detailsTemplateConfig() {
+            var detailsTemplates = {
+                'default' : '<div class="ng-spotlight-results-detail-default">{{selectedItem.name}}</div>'
+            };
+
+            function addTemplates(templateDescriptors) {
+                Object.keys(templateDescriptors)
+                    .forEach(function(templateKey) {
+                        detailsTemplates[templateKey] = templateDescriptors[templateKey];
+                    });
+            }
+
+            function getTemplateForType(type) {
+                return detailsTemplates[type] || detailsTemplates['default'];
+            }
+
+            return {
+                addTemplates: addTemplates,
+                getTemplateForType: getTemplateForType
+            }
+        }
     });

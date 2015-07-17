@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
-   <link href="../dist/darkTheme.min.css" type="text/css" rel="stylesheet">
+    <link href="../node_modules/font-awesome/css/font-awesome.min.css" type="text/css" rel="stylesheet">
 
     <script src="../node_modules/jquery/dist/jquery.js"></script>
-
+    <script src="../vendors/jquery.autogrow.js"></script>
     <script src="../node_modules/angular/angular.js"></script>
     <script src="app.js"></script>
+
+    <link href="../dist/darkTheme.min.css" type="text/css" rel="stylesheet">
     <script src="../src/angularSpotlight.js"></script>
     <script src="../src/angularSpotlightTemplate.html.js"></script>
     <style>
@@ -17,17 +19,9 @@
             background-size: cover;
             background-repeat: no-repeat;
         }
-        .keyboard {
-            width: 400px;
-            margin: 0 auto;
-            text-align: center;
-        }
     </style>
 </head>
 <body ng-app="de.stekoe.angular.spotlight.example">
-        <div class="keyboard">
-            Press Ctrl + Space
-        </div>
-        <spotlight-overlay></spotlight-overlay>
+    <spotlight-overlay></spotlight-overlay>
 </body>
 </html>

@@ -70,7 +70,8 @@ $font-family: Verdana, 'Lucida Sans Unicode', sans-serif !default;
         margin: 0;
         outline: none !important;
         height: 55px;
-        width: 400px;
+        width: 350px;
+        max-width: 350px;
         border: none !important;
         color: $searchbar-input-font-color;
         font-weight: 100;
@@ -90,6 +91,7 @@ $font-family: Verdana, 'Lucida Sans Unicode', sans-serif !default;
       }
 
       .ng-spotlight-input-after {
+        color: $placeholder-font-color;
         line-height: 55px;
       }
 
@@ -97,9 +99,11 @@ $font-family: Verdana, 'Lucida Sans Unicode', sans-serif !default;
         position: absolute;
         top: (55px - 32px)/2;
         right: 20px;
-        line-height: 55px;
+        line-height: 31px;
         height: 32px;
         width: 32px;
+        font-size: 31px;
+        color: $result-list-item-font-color;
         background-size: cover;
       }
     }
@@ -142,16 +146,24 @@ $font-family: Verdana, 'Lucida Sans Unicode', sans-serif !default;
           padding: 6px 0 6px 25px;
           cursor: pointer;
 
-          img {
+          .ng-spotlight-item-icon {
             margin: 0 10px 0 0;
             float: left;
             height: 16px;
             width: 16px;
+            font-size: 15px;
+            text-align: center;
+            color: $result-list-item-font-color;
           }
 
           &.active {
             color: $result-list-item-hover-font-color;
             background-color: $active-active-list-item-bg;
+          }
+
+          .info {
+            margin-left: 5px;
+            color: $placeholder-font-color;
           }
         }
       }
