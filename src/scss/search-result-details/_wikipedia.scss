@@ -1,0 +1,20 @@
+.ng-spotlight-results-detail-wikipedia {
+  padding: 10px;
+
+  .title {
+    text-align: center;
+    font-size: 20px;
+  }
+
+  .description {
+    color: darken($results-detail-font-color, 20);
+    text-align: justify;
+    padding: 15px 0;
+    margin-bottom: 15px;
+    border-bottom: 1px solid $searchbar-border-color;
+  }
+
+  .footer {
+    font-size: 10px;
+  }
+}

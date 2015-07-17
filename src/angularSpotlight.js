@@ -2,7 +2,6 @@ angular.module('de.stekoe.angular.spotlight', [])
     .directive('spotlightOverlay', function ($http, $compile, AngularSpotlight) {
         const KEY_UP = 40;
         const KEY_DOWN = 38;
-        const CTRL = 17;
         const SPACE = 32;
 
         var $ngSpotlightElement,
@@ -12,62 +11,62 @@ angular.module('de.stekoe.angular.spotlight', [])
         return {
             restrict: 'E',
             controller: function ($scope) {
+                $scope.searchResultsCount = 0;
+                $scope.searchResults = [];
+                $scope.selectedItem = undefined;
+
                 $scope.search = function () {
                     AngularSpotlight.search($scope.searchTerm)
-                        .then(function (resp) {
+                        .then(function setSearchResult(resp) {
                             $scope.searchResults = resp;
+                            $scope.searchResultsCount = $scope.searchResults
+                                .map(function (searchResult) {
+                                    return searchResult.items.length;
+                                }).reduce(function (prev, cur) {
+                                    return prev + cur;
+                                }, 0);
                         });
                 };
 
-                $scope.getIconForType = function(type) {
+                $scope.getIconForType = function (type) {
                     return AngularSpotlight.getIconForType(type);
                 };
 
                 $scope.showResultItem = function (event, b) {
                     var currentItem = $(event.currentTarget);
-                    currentItem.closest('.ng-spotlight-results-list').find('li').removeClass('active');
+                    currentItem.closest('.ng-spotlight-results-list')
+                        .find('li')
+                        .removeClass('active');
+
                     currentItem.addClass('active');
 
                     $scope.selectedItem = b;
                 };
 
                 $scope.selectPreviousEntry = function () {
-                    var resultsList = $ngSpotlightElement.find('.ng-spotlight-results-list');
-                    var resultItems = resultsList.find('li.ng-spotlight-results-list-item');
-                    var idx = getCurrentEntryIndex(resultItems);
-
+                    var idx = getSelectedItemIndex();
                     if (idx - 1 >= 0) {
-                        $(resultItems.get(idx)).removeClass('active');
-                        $(resultItems.get(idx - 1)).addClass('active');
-
-                        $scope.selectedItem = getResultItemFromSearchResults(idx - 1);
-                        $scope.$apply();
+                        selectItemAtIndex(idx - 1)
                     }
                 };
 
                 $scope.selectNextEntry = function () {
-                    var resultsList = $ngSpotlightElement.find('.ng-spotlight-results-list');
-                    var resultItems = resultsList.find('li.ng-spotlight-results-list-item');
-                    var idx = getCurrentEntryIndex(resultItems);
-
-                    if (idx + 1 < resultItems.length) {
-                        var currentItem = $(resultItems.get(idx));
-                        currentItem.removeClass('active');
-
-                        var nextItem = $(resultItems.get(idx + 1));
-                        nextItem.addClass('active');
-
-                        var a = nextItem.position().top + currentItem.outerHeight();
-                        var b = resultsList.scrollTop() + resultsList.height();
-
-                        if (a >= b) {
-                            resultsList.scrollTop(resultsList.scrollTop() + Math.abs(a - b));
-                        }
-
-                        $scope.selectedItem = getResultItemFromSearchResults(idx + 1);
-                        $scope.$apply();
+                    var idx = getSelectedItemIndex();
+                    if (idx + 1 < $scope.searchResultsCount) {
+                        selectItemAtIndex(idx + 1);
                     }
                 };
+
+                function selectItemAtIndex(idx) {
+                    var resultsList = $ngSpotlightElement.find('.ng-spotlight-results-list');
+                    var resultItems = resultsList.find('li.ng-spotlight-results-list-item');
+                    resultItems.removeClass('active');
+
+                    $(resultItems.get(idx)).addClass('active');
+
+                    $scope.selectedItem = getResultItemFromSearchResults(idx);
+                    $scope.$apply();
+                }
 
                 function getResultItemFromSearchResults(idx) {
                     var resultItems = $scope.searchResults.map(function (category) {
@@ -78,8 +77,11 @@ angular.module('de.stekoe.angular.spotlight', [])
                     return resultItems[idx];
                 }
 
-                function getCurrentEntryIndex(resultItems) {
+                function getSelectedItemIndex() {
+                    var resultsList = $ngSpotlightElement.find('.ng-spotlight-results-list');
+                    var resultItems = resultsList.find('li.ng-spotlight-results-list-item');
                     var activeIndex = 0;
+
                     resultItems.each(function (idx, elem) {
                         if ($(elem).hasClass('active')) {
                             activeIndex = idx;
@@ -88,7 +90,7 @@ angular.module('de.stekoe.angular.spotlight', [])
                     });
 
                     return activeIndex;
-                };
+                }
             },
             link: function ($scope, element) {
                 $ngSpotlightElement = $(element);
@@ -126,11 +128,11 @@ angular.module('de.stekoe.angular.spotlight', [])
             'default': 'data:image/svg+xml;utf8,<svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve"> <path fill="#FFFFFF" d="M14,2H6C4.9,2,4.01,2.9,4.01,4L4,20c0,1.1,0.89,2,1.99,2H18c1.1,0,2-0.9,2-2V8L14,2z"/> <polygon points="13.125,9.312 13.125,3.812 18.625,9.312 "/> </svg> '
         };
 
-        this.search = function() {
+        this.search = function () {
             throw "You have to implement a search function using AngularSpotlightProvider!";
         };
 
-        this.setIconForType = function(type, dataUrl) {
+        this.setIconForType = function (type, dataUrl) {
             icons[type] = dataUrl;
         };
 
@@ -138,45 +140,47 @@ angular.module('de.stekoe.angular.spotlight', [])
             var that = this;
             return {
                 search: that.search($http),
-                getIconForType: function(type) {
+                getIconForType: function (type) {
                     return icons[type] || icons['default'];
                 }
             };
         };
     })
     .directive('spotlightDetails', function ($compile) {
-
-        var imageTemplate = '<div class="entry-photo"><h2>&nbsp;</h2><div class="entry-img"><span><a href="{{rootDirectory}}{{content.data}}"><img ng-src="{{rootDirectory}}{{content.data}}" alt="entry photo"></a></span></div><div class="entry-text"><div class="entry-title">{{content.title}}</div><div class="entry-copy">{{content.description}}</div></div></div>';
-        var videoTemplate = '<div class="entry-video"><h2>&nbsp;</h2><div class="entry-vid"><iframe ng-src="{{content.data}}" width="280" height="200" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div><div class="entry-text"><div class="entry-title">{{content.title}}</div><div class="entry-copy">{{content.description}}</div></div></div>';
-        var noteTemplate = '<div class="entry-note"><h2>&nbsp;</h2><div class="entry-text"><div class="entry-title">{{content.title}}</div><div class="entry-copy">{{content.data}}</div></div></div>';
-        var defaultTemplate = '<div class="">Name <span>{{resultItem.name | json}}</span><br>{{resultItem  | json}}<br>{{resultItem.type}}</div>';
+        var defaultTemplate   = '   <div class="ng-spotlight-results-detail-default">{{selectedItem.name}}</div>';
+        var wikipediaTemplate = '   <div class="ng-spotlight-results-detail-wikipedia">\
+                                        <div class="title">{{selectedItem.name}}</div>\
+                                        <div class="description">{{selectedItem.description}}</div>\
+                                        <div class="footer">\
+                                            <dl>\
+                                                <dt>{{"Last update"}}</dt><dd>{{selectedItem.updatedOn | date}}</dd>\
+                                                <dt>{{"Word count"}}</dt><dd>{{selectedItem.wordcount}}</dd>\
+                                                <dt>{{"Size"}}</dt><dd>{{selectedItem.size}}</dd>\
+                                            </dl>\
+                                        </div>\
+                                    </div>';
 
         var getTemplate = function (contentType) {
             var template = '';
 
             switch (contentType) {
-                case 'image':
-                    template = imageTemplate;
-                    break;
-                case 'video':
-                    template = videoTemplate;
-                    break;
-                case 'notes':
-                    template = noteTemplate;
+                case 'wikipedia':
+                    template = wikipediaTemplate;
                     break;
                 default:
                     template = defaultTemplate;
             }
 
             return template;
-        }
+        };
 
         return {
             restrict: "E",
             link: function ($scope, element) {
-                $scope.$watch('resultItem', function () {
+                $scope.$watch('selectedItem', function () {
                     if ($scope.selectedItem) {
                         element.html(getTemplate($scope.selectedItem.type)).show();
+                        $compile(element.contents())($scope);
                     }
                 });
             }

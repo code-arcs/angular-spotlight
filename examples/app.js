@@ -3,8 +3,10 @@ angular.module('de.stekoe.angular.spotlight.example', ['de.stekoe.angular.spotli
         function extractWikipediaData(result) {
             return {
                 name: result.title,
-                description: result.snippet,
+                description: jQuery('<div>'+ result.snippet + '</div>').text(),
                 updatedOn: result.timestamp,
+                size: result.size,
+                wordcount: result.wordcount,
                 type: 'wikipedi' + result.title[0].toLowerCase()
             }
         }
@@ -23,11 +25,14 @@ angular.module('de.stekoe.angular.spotlight.example', ['de.stekoe.angular.spotli
                 return $http.jsonp('http://en.wikipedia.org/w/api.php?callback=JSON_CALLBACK&format=json&action=query&list=search&srsearch=' + term)
                     .then(function (resp) {
                         var searchResults = {};
-                        resp.data.query.search.forEach(function (result) {
-                            var key = result.title[0];
-                            searchResults[key] = (searchResults[key] || {name: key, items: []});
-                            searchResults[key].items.push(extractWikipediaData(result));
-                        });
+
+                        if(resp.data.query) {
+                            resp.data.query.search.forEach(function (result) {
+                                var key = result.title[0];
+                                searchResults[key] = (searchResults[key] || {name: key, items: []});
+                                searchResults[key].items.push(extractWikipediaData(result));
+                            });
+                        }
 
                         searchResults = orderByCategoryName(searchResults);
                         return searchResults;

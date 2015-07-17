@@ -25,7 +25,8 @@
                     <ul>
                         <li class="ng-spotlight-results-list-item"
                             ng-class="(catIndex === 0 && $index === 0) ? 'active' : ''"
-                            ng-repeat="resultItem in searchResult.items" ng-click="showResultItem($event, resultItem)">
+                            ng-repeat="resultItem in searchResult.items"
+                            ng-click="showResultItem($event, resultItem)">
                             <img ng-src="{{getIconForType(resultItem.type)}}">
                             {{resultItem.name}}
                         </li>

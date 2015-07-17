@@ -161,7 +161,11 @@ $font-family: Verdana, 'Lucida Sans Unicode', sans-serif !default;
         height: 375px;
         color: $results-detail-font-color;
         background-color: $results-detail-bg;
+
+        @import "search-result-details/wikipedia";
+        @import "search-result-details/default";
       }
     }
   }
 }
+
