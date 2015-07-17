@@ -93,13 +93,19 @@ angular.module('de.stekoe.angular.spotlight', [])
                 }
             },
             link: function ($scope, element) {
+                var spotlightOverlay = $(element).children();
                 $ngSpotlightElement = $(element);
                 $ngSpotlightDetailPanel = $ngSpotlightElement.find('.ng-spotlight-results-detail');
                 $ngSpotlightResultsPanel = $ngSpotlightElement.find('.ng-spotlight-results-panel');
 
+                $(document).click(function(e) {
+                    if(!e.target.closest('.ng-spotlight')) {
+                        spotlightOverlay.hide();
+                    }
+                });
+
                 $(document).keydown(function (e) {
                     if (e.ctrlKey && e.keyCode === SPACE) {
-                        var spotlightOverlay = $(element).children();
                         spotlightOverlay.toggle();
                         if (spotlightOverlay.is(':visible')) {
                             spotlightOverlay.find('input')
