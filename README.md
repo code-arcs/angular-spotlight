@@ -52,3 +52,4 @@ Thanks to Lukas @Pandaros for adding the light theme - much appreciated! :)
 ## Third Party Libs
  * We use icons from famfamfam's icon library located at http://famfamfam.com.
  * We adopted the behavior, look and feel from Apple's Spotlight from Mac OS.
+ * Implements InputGrow Feature implemented by James Padolsey 

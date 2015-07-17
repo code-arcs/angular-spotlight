@@ -5,6 +5,7 @@ var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var angularTemplates = require('gulp-angular-templates');
 var del = require('del');
+var uglify = require('gulp-uglify');
 
 gulp.task('clear:dist', function(done) {
     del('./dist', done);
@@ -34,8 +35,9 @@ gulp.task('watch:sass', function () {
 });
 
 gulp.task('compile:js', ['compile:angular:template'], function() {
-    return gulp.src('./src/**/*.js')
+    return gulp.src(['./vendors/**/*.js','./src/**/*.js'])
         .pipe(concat('angularSpotlight.min.js'))
+        .pipe(uglify())
         .pipe(gulp.dest('./dist/'));
 });
 

@@ -1,5 +1,5 @@
 angular.module('de.stekoe.angular.spotlight', [])
-    .directive('spotlightOverlay', function ($timeout, $http, $compile, AngularSpotlight) {
+    .directive('spotlightOverlay', ['$timeout', '$http', '$compile', 'AngularSpotlight', function ($timeout, $http, $compile, AngularSpotlight) {
         const KEY_UP = 40;
         const KEY_DOWN = 38;
         const SPACE = 32;
@@ -11,7 +11,7 @@ angular.module('de.stekoe.angular.spotlight', [])
 
         return {
             restrict: 'E',
-            controller: function ($scope) {
+            controller: ['$scope', function ($scope) {
                 $scope.searchResultsCount = 0;
                 $scope.searchResults = [];
                 $scope.selectedItem = undefined;
@@ -148,8 +148,8 @@ angular.module('de.stekoe.angular.spotlight', [])
 
                     return activeIndex;
                 }
-            },
-            link: function ($scope, element) {
+            }],
+            link: function (scope, element) {
                 var spotlightOverlay = $(element).children();
                 $ngSpotlightElement = $(element);
                 $ngSpotlightDetailPanel = $ngSpotlightElement.find('.ng-spotlight-results-detail');
@@ -170,30 +170,30 @@ angular.module('de.stekoe.angular.spotlight', [])
                             spotlightOverlay.find('input')
                                 .focus()
                                 .val('');
-                            $scope.searchResults = [];
+                            scope.searchResults = [];
                         }
                     }
 
                     if(e.keyCode === KEY_ESC) {
                         e.preventDefault();
-                        $scope.resetSearch();
+                        scope.resetSearch();
                     }
 
                     if (e.keyCode === KEY_DOWN) {
                         e.preventDefault();
-                        $scope.selectPreviousEntry();
+                        scope.selectPreviousEntry();
                     }
 
                     if (e.keyCode === KEY_UP) {
                         e.preventDefault();
-                        $scope.selectNextEntry();
+                        scope.selectNextEntry();
                     }
                 });
             },
             templateUrl: 'angularSpotlightTemplate.html'
         };
-    })
-    .directive('spotlightResultIcon', function($compile, AngularSpotlight) {
+    }])
+    .directive('spotlightResultIcon', ['$compile', 'AngularSpotlight', function($compile, AngularSpotlight) {
         var iconTemplates = {
             'url': '<img class="ng-spotlight-item-icon" ng-src="{{iconDescriptor.data}}">',
             'css': '<div class="ng-spotlight-item-icon" ng-class="iconDescriptor.data"></div>'
@@ -225,8 +225,8 @@ angular.module('de.stekoe.angular.spotlight', [])
                 }
             }
         }
-    })
-    .directive('spotlightDetails', function ($compile, AngularSpotlight) {
+    }])
+    .directive('spotlightDetails', ['$compile', 'AngularSpotlight', function ($compile, AngularSpotlight) {
         return {
             restrict: "E",
             link: function (scope, element) {
@@ -238,7 +238,7 @@ angular.module('de.stekoe.angular.spotlight', [])
                 });
             }
         };
-    })
+    }])
     .provider("AngularSpotlight", function () {
         var _iconConfig = iconConfig();
         var _detailsTemplateConfig = detailsTemplateConfig();
@@ -250,14 +250,14 @@ angular.module('de.stekoe.angular.spotlight', [])
         this.addIcons = _iconConfig.addIcons;
         this.addTemplates = _detailsTemplateConfig.addTemplates;
 
-        this.$get = function ($http) {
+        this.$get = ['$http', function ($http) {
             var that = this;
             return {
                 search: that.search($http),
                 getIconDescriptorForType: _iconConfig.getIconForType,
                 getTemplateForType: _detailsTemplateConfig.getTemplateForType
             };
-        };
+        }];
 
         function iconConfig() {
             var icons = {
