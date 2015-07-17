@@ -13,7 +13,8 @@
         <input class="ng-spotlight-input" type="text" placeholder="Spotlight-Suche" ng-model="searchTerm" ng-change="search()"/>
 
         <div class="ng-spotlight-input-after" ng-if="searchResults.length == 0">&mdash; Keine Ergebnisse</div>
-        <div class="ng-spotlight-results-icon" ng-style="{'background-image':'url('+getIconForType(selectedItem.type)+')'}">
+        <div class="ng-spotlight-results-icon">
+            <img ng-src="{{getIconForType(selectedItem.type)}}">
         </div>
     </div>
     <div class="ng-spotlight-results-panel" ng-if="searchTerm && searchTerm.length > 0">
