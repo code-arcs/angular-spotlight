@@ -6,6 +6,7 @@
   "dependencies": {
     "angular": "^1.4.2",
     "angular-sanitize": "^1.4.3",
+    "font-awesome": "^4.3.0",
     "jquery": "^2.1.4"
   },
   "author": "Stephan Koeninger",
