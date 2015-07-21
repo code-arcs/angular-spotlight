@@ -277,12 +277,12 @@ angular.module('de.stekoe.angular.spotlight', [])
             function addIcons(iconDescriptors) {
                 Object.keys(iconDescriptors)
                     .forEach(function (iconKey) {
-                        icons[iconKey] = iconDescriptors[iconKey];
+                        icons[iconKey.toLowerCase()] = iconDescriptors[iconKey];
                     });
             }
 
             function getIconForType(type) {
-                var icon = icons[type] || icons['default'];
+                var icon = icons[type.toLowerCase()] || icons['default'];
 
                 return {
                     data: icon,
@@ -313,12 +313,12 @@ angular.module('de.stekoe.angular.spotlight', [])
             function addTemplates(templateDescriptors) {
                 Object.keys(templateDescriptors)
                     .forEach(function (templateKey) {
-                        detailsTemplates[templateKey] = templateDescriptors[templateKey];
+                        detailsTemplates[templateKey.toLowerCase()] = templateDescriptors[templateKey];
                     });
             }
 
             function getTemplateForType(type) {
-                return detailsTemplates[type] || detailsTemplates['default'];
+                return detailsTemplates[type.toLowerCase()] || detailsTemplates['default'];
             }
 
             return {

@@ -1,0 +1,29 @@
+.ng-spotlight-results-detail-vcard {
+  padding: 10px;
+
+  .profile-image {
+    text-align: center;
+    font-size: 50px;
+    width: 100px;
+    height: 150px;
+    line-height: 150px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(0, 0, 0, 0.9);
+    margin-right: 15px;
+    float: left;
+  }
+
+  ul {
+    margin: 10px 0 0 0;
+    padding: 0 40px;
+
+    li {
+      list-style: none;
+      padding: 2px 0;
+
+      &.name {
+        font-weight: bold;
+      }
+    }
+  }
+}

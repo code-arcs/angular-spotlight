@@ -179,6 +179,11 @@ $font-family: Verdana, 'Lucida Sans Unicode', sans-serif !default;
         color: $results-detail-font-color;
         background-color: $results-detail-bg;
 
+        a {
+          color: $results-detail-font-color;
+        }
+
+        @import "search-result-details/vcard";
         @import "search-result-details/wikipedia";
         @import "search-result-details/default";
       }

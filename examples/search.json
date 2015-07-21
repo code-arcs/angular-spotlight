@@ -37,6 +37,19 @@
     ]
   },
   {
+    "name": "vCards",
+    "items": [
+      {
+        "type": "vCard",
+        "name":"Max Mustermann",
+        "phone": "01234/123849",
+        "fax": "01234/123849",
+        "email": "mail@example.com",
+        "www": "http://example.com"
+      }
+    ]
+  },
+  {
     "name": "Misc",
     "items": [
       {
