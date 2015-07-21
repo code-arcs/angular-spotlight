@@ -32,8 +32,8 @@ angular.module('de.stekoe.angular.spotlight', [])
                                     return prev + cur;
                                 }, 0);
 
-                            $timeout(function() {
-                                if(!$scope.selectedItem)  {
+                            $timeout(function () {
+                                if (!$scope.selectedItem) {
                                     selectItemAtIndex(0, false);
                                 }
                             }, 20);
@@ -73,7 +73,7 @@ angular.module('de.stekoe.angular.spotlight', [])
                     }
                 };
 
-                $scope.resetSearch = function() {
+                $scope.resetSearch = function () {
                     $ngSpotlightElement.find('.ng-spotlight-input').val('');
                     $scope.searchResultsCount = 0;
                     $scope.searchResults = [];
@@ -85,7 +85,7 @@ angular.module('de.stekoe.angular.spotlight', [])
                     $ngSpotlightElement.find('.ng-spotlight-input').width(400);
                 };
 
-                $scope.searchResultCount = function() {
+                $scope.searchResultCount = function () {
                     return Object.keys($scope.searchResults).length;
                 }
 
@@ -178,7 +178,7 @@ angular.module('de.stekoe.angular.spotlight', [])
                         }
                     }
 
-                    if(e.keyCode === KEY_ESC) {
+                    if (e.keyCode === KEY_ESC) {
                         e.preventDefault();
                         scope.resetSearch();
                     }
@@ -198,12 +198,21 @@ angular.module('de.stekoe.angular.spotlight', [])
         };
 
         function keepItemVisible(resultsList, activeItem) {
-                var positionNew = activeItem.position().top;
-                var parentsHeight = resultsList.height();
+            var activeItemTop = activeItem.position().top;
+            var activeItemBottom = activeItem.position().top + activeItem.outerHeight();
+            var parentsHeight = resultsList.height();
+            var currentScrollTop = resultsList.scrollTop();
 
-                if (positionNew <= 0  || positionNew > parentsHeight) {
-                    resultsList.scrollTop(positionNew);
+            if(parentsHeight - activeItemBottom < 0) {
+                resultsList.scrollTop(currentScrollTop + Math.abs(parentsHeight - activeItemBottom));
+            }
+            if(activeItemTop < 0) {
+                var padding = 0;
+                if(activeItem.parent().find('li').index(activeItem) === 0) {
+                    padding = $('.ng-spotlight-results-list-header:first').outerHeight();
                 }
+                resultsList.scrollTop(currentScrollTop + activeItemTop - padding);
+            }
         }
     }])
     .directive('spotlightResultIcon', ['$compile', 'AngularSpotlight', function ($compile, AngularSpotlight) {
@@ -215,14 +224,14 @@ angular.module('de.stekoe.angular.spotlight', [])
         return {
             restrict: "E",
             scope: {
-                selectedItem : '='
+                selectedItem: '='
             },
-            link: function(scope, element, attrs) {
-                if(attrs.type) {
+            link: function (scope, element, attrs) {
+                if (attrs.type) {
                     updateResultIcon(AngularSpotlight.getIconDescriptorForType(attrs.type));
-                } else  {
-                    scope.$watch('selectedItem', function() {
-                        if(scope.selectedItem) {
+                } else {
+                    scope.$watch('selectedItem', function () {
+                        if (scope.selectedItem) {
                             updateResultIcon(AngularSpotlight.getIconDescriptorForType(scope.selectedItem.type));
                         } else {
                             element.html("");
@@ -279,7 +288,7 @@ angular.module('de.stekoe.angular.spotlight', [])
 
             function addIcons(iconDescriptors) {
                 Object.keys(iconDescriptors)
-                    .forEach(function(iconKey) {
+                    .forEach(function (iconKey) {
                         icons[iconKey] = iconDescriptors[iconKey];
                     });
             }
@@ -294,7 +303,7 @@ angular.module('de.stekoe.angular.spotlight', [])
 
                 function guessType(icon) {
                     var icon = icon.toLowerCase();
-                    if(icon.indexOf('http') === 0 || icon.indexOf('data:') === 0) {
+                    if (icon.indexOf('http') === 0 || icon.indexOf('data:') === 0) {
                         return 'url';
                     } else {
                         return 'css';
@@ -310,12 +319,12 @@ angular.module('de.stekoe.angular.spotlight', [])
 
         function detailsTemplateConfig() {
             var detailsTemplates = {
-                'default' : '<div class="ng-spotlight-results-detail-default">{{selectedItem.name}}</div>'
+                'default': '<div class="ng-spotlight-results-detail-default">{{selectedItem.name}}</div>'
             };
 
             function addTemplates(templateDescriptors) {
                 Object.keys(templateDescriptors)
-                    .forEach(function(templateKey) {
+                    .forEach(function (templateKey) {
                         detailsTemplates[templateKey] = templateDescriptors[templateKey];
                     });
             }

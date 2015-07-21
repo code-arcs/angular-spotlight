@@ -2,7 +2,7 @@
     angular.module('de.stekoe.angular.spotlight.example', ['de.stekoe.angular.spotlight'])
         .config(function configuration(AngularSpotlightProvider) {
 
-            wikipediaSearch();
+            jsonFileSearch();
 
             /*
              * Example using static Json File
