@@ -17,7 +17,7 @@
             <spotlight-result-icon selected-item="selectedItem" ng-if="searchTerm.length > 0"></spotlight-result-icon>
         </div>
     </div>
-    <div class="ng-spotlight-results-panel" ng-if="searchTerm && searchTerm.length > 0 && searchResultCount() > 0" >
+    <div class="ng-spotlight-results-panel" ng-if="searchTerm && searchTerm.length > 0 && searchResultsCount > 0" >
         <div class="ng-spotlight-results-list" ng-keydown="handleKeyDown($event)">
             <ul>
                 <li class="ng-spotlight-results-category" ng-repeat="searchResult in searchResults">

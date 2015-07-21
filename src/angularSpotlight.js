@@ -50,10 +50,6 @@ angular.module('de.stekoe.angular.spotlight', [])
                 selectItemAtIndex(indexToSelect + idx);
             };
 
-            $scope.searchResultCount = function () {
-                return Object.keys($scope.searchResults).length;
-            };
-
             /**
              * Handle Keyboard events
              * @param $event
@@ -190,8 +186,7 @@ angular.module('de.stekoe.angular.spotlight', [])
                     if (spotlightOverlay.is(':visible')) {
                         spotlightOverlay.find('input')
                             .focus()
-                            .val('');
-                        scope.searchResults = [];
+                            .select();
                     }
                 }
             });
