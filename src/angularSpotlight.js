@@ -133,10 +133,10 @@ angular.module('de.stekoe.angular.spotlight', [])
 
             $scope.$watch('selectedItemIndex', function () {
                 $timeout(function () {
-                    if($scope.selectedItemIndex) {
+                    if($scope.selectedItemIndex !== undefined) {
                         keepItemVisible();
                     }
-                }, 50);
+                }, 100);
             });
 
             function keepItemVisible() {
