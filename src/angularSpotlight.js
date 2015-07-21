@@ -1,224 +1,208 @@
 angular.module('de.stekoe.angular.spotlight', [])
     .directive('spotlightOverlay', ['$timeout', '$http', '$compile', 'AngularSpotlight', function ($timeout, $http, $compile, AngularSpotlight) {
-        const KEY_UP = 40;
-        const KEY_DOWN = 38;
-        const SPACE = 32;
-        const KEY_ESC = 27;
 
-        var $ngSpotlightElement,
-            $ngSpotlightDetailPanel,
-            $ngSpotlightResultsPanel;
+        const KEY = {
+            UP: 38,
+            DOWN: 40,
+            SPACE: 32,
+            ESC: 27
+        };
 
-        return {
-            restrict: 'E',
-            controller: ['$scope', function ($scope) {
-                $scope.searchResultsCount = 0;
-                $scope.searchResults = [];
-                $scope.selectedItem = undefined;
-                $scope.searchInputInfo = undefined;
+        var $ngSpotlightOverlay;
 
-                $scope.search = function () {
+        var controller = ['$scope', function ($scope) {
+            $scope.searchInputInfo = 'Keine Ergebnisse';
+
+            $scope.search = function () {
+                if ($scope.searchTerm.length > 0) {
                     AngularSpotlight.search($scope.searchTerm)
                         .then(function setSearchResult(resp) {
-                            growInputField();
-
-                            $scope.selectedItem = undefined;
                             $scope.searchResults = resp;
-                            $scope.searchResultsCount = Object.keys($scope.searchResults)
-                                .map(function (key) {
-                                    return $scope.searchResults[key].items.length;
+                            $scope.searchResultsCount = $scope.searchResults
+                                .map(function (category) {
+                                    return category.items.length;
                                 })
                                 .reduce(function (prev, cur) {
                                     return prev + cur;
                                 }, 0);
 
-                            $timeout(function () {
-                                if (!$scope.selectedItem) {
-                                    selectItemAtIndex(0, false);
-                                }
-                            }, 20);
+                            selectItemAtIndex($scope.selectedItemIndex);
                         });
-                };
+                }
+            };
 
-                $scope.getIconForType = function (type) {
-                    return AngularSpotlight.getIconForType(type);
-                };
+            $scope.getIconForType = function (type) {
+                return AngularSpotlight.getIconForType(type);
+            };
 
-                $scope.showResultItem = function (event, b) {
-                    var currentItem = $(event.currentTarget);
-                    var categoryName = currentItem.closest('.ng-spotlight-results-category').find('.ng-spotlight-results-list-header').text();
+            $scope.showResultItem = function (categoryName, idx) {
+                var indexToSelect = 0;
 
-                    currentItem.closest('.ng-spotlight-results-list')
-                        .find('.ng-spotlight-results-list-item')
-                        .removeClass('active');
-                    currentItem.addClass('active');
-
-                    $scope.selectedItem = b;
-                    setSearchInputInfo(categoryName);
-
-                    keepItemVisible(resultsList, currentItem);
-                };
-
-                $scope.selectPreviousEntry = function () {
-                    var idx = getSelectedItemIndex();
-                    if (idx - 1 >= 0) {
-                        selectItemAtIndex(idx - 1, true)
+                for(var i = 0; i < $scope.searchResults.length; i++) {
+                    if ($scope.searchResults[i].name !== categoryName) {
+                        indexToSelect += $scope.searchResults[i].items.length;
+                    } else {
+                        break;
                     }
-                };
+                }
 
-                $scope.selectNextEntry = function () {
-                    var idx = getSelectedItemIndex();
-                    if (idx + 1 < $scope.searchResultsCount) {
-                        selectItemAtIndex(idx + 1, true);
+                selectItemAtIndex(indexToSelect + idx);
+            };
+
+            $scope.searchResultCount = function () {
+                return Object.keys($scope.searchResults).length;
+            };
+
+            /**
+             * Handle Keyboard events
+             * @param $event
+             */
+            $scope.handleKeyDown = function ($event) {
+                switch ($event.keyCode) {
+                    case KEY.UP:
+                        $event.preventDefault();
+                        selectPreviousEntry();
+                        break;
+                    case KEY.DOWN:
+                        $event.preventDefault();
+                        selectNextEntry();
+                        break;
+                    case KEY.ESC:
+                        resetSearch();
+                        break;
+                }
+            };
+
+            function resetSearch() {
+                $scope.selectedItem = undefined;
+                $scope.searchResultsCount = 0;
+                $scope.searchResults = [];
+                $scope.searchInputInfo = undefined;
+                $scope.searchTerm = "";
+            }
+
+            function selectPreviousEntry() {
+                var idx = getSelectedItemIndex();
+                if (idx - 1 >= 0) {
+                    selectItemAtIndex(idx - 1)
+                }
+            }
+
+            function selectNextEntry() {
+                var idx = getSelectedItemIndex();
+                if (idx + 1 < $scope.searchResultsCount) {
+                    selectItemAtIndex(idx + 1);
+                }
+            }
+
+            function selectItemAtIndex(idx) {
+                var currentItemIndex = 0;
+                $scope.searchResults.forEach(function (category) {
+                    if (category.items.length > 0) {
+                        category.items.forEach(function (item) {
+                            var isActive = currentItemIndex === (idx || 0);
+                            item.active = isActive;
+                            currentItemIndex++;
+
+                            if (isActive) {
+                                $scope.selectedItem = item;
+                                setSearchInputInfo(category.name);
+                            }
+                        });
                     }
-                };
+                });
+                $scope.selectedItemIndex = idx;
+            }
 
-                $scope.resetSearch = function () {
-                    $ngSpotlightElement.find('.ng-spotlight-input').val('');
-                    $scope.searchResultsCount = 0;
-                    $scope.searchResults = [];
-                    $scope.selectedItem = undefined;
+            function setSearchInputInfo(categoryName) {
+                $scope.searchInputInfo = undefined;
+                if ($scope.searchTerm.length === 0) {
                     $scope.searchInputInfo = undefined;
-                    $scope.searchTerm = "";
-                    $scope.$apply();
-
-                    $ngSpotlightElement.find('.ng-spotlight-input').width(400);
-                };
-
-                $scope.searchResultCount = function () {
-                    return Object.keys($scope.searchResults).length;
-                }
-
-                function growInputField() {
-                    $ngSpotlightElement.find('.ng-spotlight-input').autoGrowInput({
-                        maxWidth: 400,
-                        minWidth: 10,
-                        comfortZone: 15
-                    });
-                }
-
-                function selectItemAtIndex(idx, performApply) {
-                    var resultsList = $ngSpotlightElement.find('.ng-spotlight-results-list');
-                    var resultItems = resultsList.find('li.ng-spotlight-results-list-item');
-                    var newActiveItem = $(resultItems.get(idx));
-                    var categoryName = newActiveItem.closest('.ng-spotlight-results-category').find('.ng-spotlight-results-list-header').text();
-
-                    resultItems.removeClass('active');
-                    newActiveItem.addClass('active');
-
-                    $scope.selectedItem = getResultItemFromSearchResults(idx);
-                    setSearchInputInfo(categoryName);
-
-                    keepItemVisible(resultsList, newActiveItem);
-
-                    if (performApply) {
-                        $scope.$apply();
-                    }
-                }
-
-                function setSearchInputInfo(categoryName) {
-                    $scope.searchInputInfo = undefined;
-                    if ($scope.searchTerm.length === 0) {
-                        $scope.searchInputInfo = undefined;
-                    } else if ($scope.selectedItem) {
+                } else {
+                    if ($scope.selectedItem) {
                         $scope.searchInputInfo = $scope.selectedItem.name + " - " + categoryName;
                     } else if ($scope.searchResultCount() === 0) {
                         $scope.searchInputInfo = "Keine Ergebnisse";
                     }
                 }
+            }
 
-                function getResultItemFromSearchResults(idx) {
-                    var resultItems = Object.keys($scope.searchResults)
-                        .map(function (key) {
-                            return $scope.searchResults[key].items;
-                        })
-                        .reduce(function (prev, cur) {
-                            return prev.concat(cur);
-                        }, []);
-                    return resultItems[idx];
+            function getSelectedItemIndex() {
+                return $scope.selectedItemIndex || 0;
+            }
+
+            $scope.$watch('selectedItemIndex', function () {
+                $timeout(function () {
+                    if($scope.selectedItemIndex) {
+                        keepItemVisible();
+                    }
+                }, 50);
+            });
+
+            function keepItemVisible() {
+                var activeItem = $ngSpotlightOverlay.find('li.ng-spotlight-results-list-item.active');
+                var resultsList = $ngSpotlightOverlay.find('.ng-spotlight-results-list');
+
+                var activeItemTop = activeItem.position().top;
+                var activeItemBottom = activeItem.position().top + activeItem.outerHeight();
+                var parentsHeight = resultsList.height();
+                var currentScrollTop = resultsList.scrollTop();
+
+                if (parentsHeight - activeItemBottom < 0) {
+                    resultsList.scrollTop(currentScrollTop + Math.abs(parentsHeight - activeItemBottom));
                 }
-
-                function getSelectedItemIndex() {
-                    var resultsList = $ngSpotlightElement.find('.ng-spotlight-results-list');
-                    var resultItems = resultsList.find('li.ng-spotlight-results-list-item');
-                    var activeIndex = -1;
-
-                    resultItems.each(function (idx, elem) {
-                        if ($(elem).hasClass('active')) {
-                            activeIndex = idx;
-                            return false;
-                        }
-                    });
-
-                    return activeIndex;
+                if (activeItemTop < 0) {
+                    var padding = 0;
+                    if (activeItem.parent().find('li').index(activeItem) === 0) {
+                        padding = $('.ng-spotlight-results-list-header:first').outerHeight();
+                    }
+                    resultsList.scrollTop(currentScrollTop + activeItemTop - padding);
                 }
-            }],
-            link: function (scope, element) {
-                var spotlightOverlay = $(element).children();
-                $ngSpotlightElement = $(element);
-                $ngSpotlightDetailPanel = $ngSpotlightElement.find('.ng-spotlight-results-detail');
-                $ngSpotlightResultsPanel = $ngSpotlightElement.find('.ng-spotlight-results-panel');
+            }
+        }];
 
-                $(document).click(function (e) {
-                    console.log();
-                    if ($(e.target).closest('.ng-spotlight').length === 0) {
-                        spotlightOverlay.hide();
-                    }
-                });
+        function linkFn(scope, element) {
+            var spotlightOverlay = $(element).children();
+            $ngSpotlightOverlay = $(element);
 
-                $(document).keydown(function (e) {
-                    if (e.ctrlKey && e.keyCode === SPACE) {
-                        e.preventDefault();
-                        spotlightOverlay.toggle();
-                        if (spotlightOverlay.is(':visible')) {
-                            spotlightOverlay.find('input')
-                                .focus()
-                                .val('');
-                            scope.searchResults = [];
-                        }
-                    }
+            $(document).click(function (e) {
+                if ($(e.target).closest('.ng-spotlight').length === 0) {
+                    spotlightOverlay.hide();
+                }
+            });
 
-                    if (e.keyCode === KEY_ESC) {
-                        e.preventDefault();
-                        scope.resetSearch();
+            $(document).keydown(function (e) {
+                if (e.ctrlKey && e.keyCode === KEY.SPACE) {
+                    e.preventDefault();
+                    spotlightOverlay.toggle();
+                    if (spotlightOverlay.is(':visible')) {
+                        spotlightOverlay.find('input')
+                            .focus()
+                            .val('');
+                        scope.searchResults = [];
                     }
+                }
+            });
 
-                    if (e.keyCode === KEY_DOWN) {
-                        e.preventDefault();
-                        scope.selectPreviousEntry();
-                    }
+            $ngSpotlightOverlay.find('.ng-spotlight-input').autoGrowInput({
+                maxWidth: 400,
+                minWidth: 10,
+                comfortZone: 15
+            });
+        }
 
-                    if (e.keyCode === KEY_UP) {
-                        e.preventDefault();
-                        scope.selectNextEntry();
-                    }
-                });
-            },
+        return {
+            restrict: 'E',
+            controller: controller,
+            link: linkFn,
             templateUrl: 'angularSpotlightTemplate.html'
         };
 
-        function keepItemVisible(resultsList, activeItem) {
-            var activeItemTop = activeItem.position().top;
-            var activeItemBottom = activeItem.position().top + activeItem.outerHeight();
-            var parentsHeight = resultsList.height();
-            var currentScrollTop = resultsList.scrollTop();
-
-            if(parentsHeight - activeItemBottom < 0) {
-                resultsList.scrollTop(currentScrollTop + Math.abs(parentsHeight - activeItemBottom));
-            }
-            if(activeItemTop < 0) {
-                var padding = 0;
-                if(activeItem.parent().find('li').index(activeItem) === 0) {
-                    padding = $('.ng-spotlight-results-list-header:first').outerHeight();
-                }
-                resultsList.scrollTop(currentScrollTop + activeItemTop - padding);
-            }
-        }
     }])
     .directive('spotlightResultIcon', ['$compile', 'AngularSpotlight', function ($compile, AngularSpotlight) {
         var iconTemplates = {
             'url': '<img class="ng-spotlight-item-icon" ng-src="{{iconDescriptor.data}}">',
-            'css': '<div class="ng-spotlight-item-icon" ng-class="iconDescriptor.data"></div>'
+            'css': '<div class="ng-spotlight-item-icon {{iconDescriptor.data}}"></div>'
         };
 
         return {

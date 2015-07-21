@@ -2,7 +2,7 @@
     angular.module('de.stekoe.angular.spotlight.example', ['de.stekoe.angular.spotlight'])
         .config(function configuration(AngularSpotlightProvider) {
 
-            jsonFileSearch();
+            wikipediaSearch();
 
             /*
              * Example using static Json File
@@ -41,13 +41,23 @@
                     return function (term) {
                         return $http.jsonp('http://en.wikipedia.org/w/api.php?callback=JSON_CALLBACK&format=json&action=query&list=search&srsearch=' + term)
                             .then(function (resp) {
-                                var searchResults = {};
+                                var searchResults = [];
 
                                 if (resp.data.query) {
                                     resp.data.query.search.forEach(function (result) {
                                         var key = result.title[0];
-                                        searchResults[key] = (searchResults[key] || {name: key, items: []});
-                                        searchResults[key].items.push(extractWikipediaData(result));
+
+                                        var category = searchResults.filter(function(result) {
+                                            return result.name === key;
+                                        })[0];
+
+                                        if(category) {
+                                            category.items.push(extractWikipediaData(result));
+                                        } else {
+                                            category = {name: key, items: []};
+                                            category.items.push(extractWikipediaData(result));
+                                            searchResults.push(category);
+                                        }
                                     });
                                 }
 

@@ -1,4 +1,4 @@
-<div class="ng-spotlight ng-spotlight-overlay">
+<div class="ng-spotlight ng-spotlight-overlay" ng-keydown="handleKeyDown($event)">
     <div class="ng-spotlight-searchbar">
         <div class="ng-spotlight-icon">
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"  viewBox="0 0 283.753 284.51" enable-background="new 0 0 283.753 284.51" xml:space="preserve">
@@ -10,25 +10,28 @@
 	C121.385,177.841,75.617,177.841,47.388,149.612z"/>
             </svg>
         </div>
-        <input class="ng-spotlight-input" type="text" placeholder="Spotlight-Suche" ng-model="searchTerm" ng-change="search()"/>
+        <input class="ng-spotlight-input" ng-class="{'empty': searchTerm.length === 0}" type="text" placeholder="Spotlight-Suche" ng-model="searchTerm" ng-change="search()"/>
 
-        <div class="ng-spotlight-input-after" ng-if="searchInputInfo && searchInputInfo.length > 0">&mdash; {{searchInputInfo}}</div>
+        <div class="ng-spotlight-input-after" ng-if="searchInputInfo.length > 0  && searchTerm.length > 0">&mdash; {{searchInputInfo}}</div>
         <div class="ng-spotlight-results-icon">
             <spotlight-result-icon selected-item="selectedItem"></spotlight-result-icon>
         </div>
     </div>
-    <div class="ng-spotlight-results-panel" ng-if="searchTerm && searchTerm.length > 0 && searchResultCount() > 0">
-        <div class="ng-spotlight-results-list">
+    <div class="ng-spotlight-results-panel" ng-if="searchTerm && searchTerm.length > 0 && searchResultCount() > 0" >
+        <div class="ng-spotlight-results-list" ng-keydown="handleKeyDown($event)">
             <ul>
-                <li class="ng-spotlight-results-category" ng-repeat="searchResult in searchResults" ng-init="catIndex=$index">
+                <li class="ng-spotlight-results-category" ng-repeat="searchResult in searchResults">
                     <div class="ng-spotlight-results-list-header">{{searchResult.name}}</div>
                     <ul>
                         <li class="ng-spotlight-results-list-item"
-                            ng-class="{'active': selectedItem.name == resultItem.name}"
                             ng-repeat="resultItem in searchResult.items"
-                            ng-click="showResultItem($event, resultItem)">
+                            ng-class="{'active': resultItem.active === true}"
+                            ng-click="showResultItem(searchResult.name, $index)">
+
                             <spotlight-result-icon type="{{resultItem.type || 'default'}}"></spotlight-result-icon>
+
                             {{resultItem.name}}
+
                             <span class="info" ng-if="resultItem.info">
                                 &ndash; {{resultItem.info}}
                             </span>

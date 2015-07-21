@@ -1,29 +1,5 @@
-{
-  "Persons": {
-    "name": "Persons",
-    "items": [
-      {
-        "name": "Albert Einstein",
-        "type": "vcard",
-        "firstName": "Albert",
-        "lastName": "Einstein",
-        "dateOfBirth": "1879-03-14",
-        "phone": "1234456789",
-        "mail": "albert.einstein@example.com",
-        "info": "This is you!"
-      },
-      {
-        "name": "Robert Oppenheimer",
-        "type": "vcard",
-        "firstName": "Robert",
-        "lastName": "Oppenheimer",
-        "dateOfBirth": "1904-04-22",
-        "phone": "1234456789",
-        "mail": "robert.oppenheimer@example.com"
-      }
-    ]
-  },
-  "Wikipedia": {
+[
+  {
     "name": "Wikipedia",
     "items": [
       {
@@ -60,7 +36,7 @@
       }
     ]
   },
-  "Misc": {
+  {
     "name": "Misc",
     "items": [
       {
@@ -95,4 +71,4 @@
       }
     ]
   }
-}
+]

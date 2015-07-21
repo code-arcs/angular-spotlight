@@ -77,6 +77,10 @@ $font-family: Verdana, 'Lucida Sans Unicode', sans-serif !default;
         color: $searchbar-input-font-color;
         font-weight: 100;
 
+        &.empty {
+          width: 400px !important;
+        }
+
         &:-ms-input-placeholder {
           color: $placeholder-font-color;
         }
