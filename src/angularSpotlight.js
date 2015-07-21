@@ -55,6 +55,8 @@ angular.module('de.stekoe.angular.spotlight', [])
 
                     $scope.selectedItem = b;
                     setSearchInputInfo(categoryName);
+
+                    keepItemVisible(resultsList, currentItem);
                 };
 
                 $scope.selectPreviousEntry = function () {
@@ -107,18 +109,20 @@ angular.module('de.stekoe.angular.spotlight', [])
                     $scope.selectedItem = getResultItemFromSearchResults(idx);
                     setSearchInputInfo(categoryName);
 
-                    if(performApply) {
+                    keepItemVisible(resultsList, newActiveItem);
+
+                    if (performApply) {
                         $scope.$apply();
                     }
                 }
 
                 function setSearchInputInfo(categoryName) {
                     $scope.searchInputInfo = undefined;
-                    if($scope.searchTerm.length === 0) {
+                    if ($scope.searchTerm.length === 0) {
                         $scope.searchInputInfo = undefined;
-                    } else if($scope.selectedItem) {
+                    } else if ($scope.selectedItem) {
                         $scope.searchInputInfo = $scope.selectedItem.name + " - " + categoryName;
-                    } else if($scope.searchResultCount() === 0) {
+                    } else if ($scope.searchResultCount() === 0) {
                         $scope.searchInputInfo = "Keine Ergebnisse";
                     }
                 }
@@ -192,8 +196,17 @@ angular.module('de.stekoe.angular.spotlight', [])
             },
             templateUrl: 'angularSpotlightTemplate.html'
         };
+
+        function keepItemVisible(resultsList, activeItem) {
+                var positionNew = activeItem.position().top;
+                var parentsHeight = resultsList.height();
+
+                if (positionNew <= 0  || positionNew > parentsHeight) {
+                    resultsList.scrollTop(positionNew);
+                }
+        }
     }])
-    .directive('spotlightResultIcon', ['$compile', 'AngularSpotlight', function($compile, AngularSpotlight) {
+    .directive('spotlightResultIcon', ['$compile', 'AngularSpotlight', function ($compile, AngularSpotlight) {
         var iconTemplates = {
             'url': '<img class="ng-spotlight-item-icon" ng-src="{{iconDescriptor.data}}">',
             'css': '<div class="ng-spotlight-item-icon" ng-class="iconDescriptor.data"></div>'
