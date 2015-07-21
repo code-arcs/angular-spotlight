@@ -5,7 +5,8 @@ angular.module('de.stekoe.angular.spotlight', [])
             UP: 38,
             DOWN: 40,
             SPACE: 32,
-            ESC: 27
+            ESC: 27,
+            ENTER: 13
         };
 
         var $ngSpotlightOverlay;
@@ -69,6 +70,9 @@ angular.module('de.stekoe.angular.spotlight', [])
                         break;
                     case KEY.ESC:
                         resetSearch();
+                        break;
+                    case KEY.ENTER:
+                        alert($scope.selectedItem.name);
                         break;
                 }
             };
