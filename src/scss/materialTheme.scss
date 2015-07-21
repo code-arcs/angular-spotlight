@@ -1,34 +1,34 @@
 
 // Material colors
 
-$primaryColorA: #0097A7;
-$primaryColorB: #00BCD4;
-$primaryColorC: #80DEEA;
+$primaryColorA: #2E7D32;
+$primaryColorB: rgba($primaryColorA, 0.80);
+$primaryColorC: rgba($primaryColorA, 0.65);;
 
-$secondaryColorA: #FFEB3B;
-$secondaryColorB: #FDD835;
-$secondaryColorC: #FFF59D;
+$secondaryColorA: #E8F5E9;
+$secondaryColorB: #E8F5E9;
+$secondaryColorC: #E8F5E9;
 
 // Le background colors
-$alpha: 0.97;
-$searchbar-bg: rgba($primaryColorA, $alpha);
-$results-list-bg: rgba($primaryColorC, $alpha);
-$results-detail-bg: rgba($primaryColorC, $alpha);
+$searchbar-bg: $primaryColorA;
+$results-list-bg: $secondaryColorC;
+$results-detail-bg: $secondaryColorC;
 $result-list-header-bg: $primaryColorB;
-$active-active-list-item-bg: $primaryColorB;
+$active-active-list-item-bg: $primaryColorC;
 $icon-magnifier-color: $secondaryColorB;
 
 // Font colors
 $results-detail-font-color: #333435;
-$searchbar-input-font-color: $primaryColorC;
+$searchbar-input-font-color: $secondaryColorC;
 $result-list-header-font-color: #333435;
 $placeholder-font-color:$primaryColorC;
 $result-list-item-font-color: #333435;
 $result-list-item-hover-font-color: $secondaryColorB;
+//$result-list-item-font-color: $primaryColorC;
 
 // Colors for borders
 $searchbar-border-color: $primaryColorA;
-$results-list-border-color: $primaryColorC;
+$results-list-border-color: $secondaryColorC;
 $overlay-border-color: rgba(#333435, 0.1);
 
 
@@ -38,8 +38,16 @@ $overlay-border-color: rgba(#333435, 0.1);
 .ng-spotlight {
   &.ng-spotlight-overlay {
 
-    box-shadow: 0 6px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084) !important;
+    box-shadow: 0 6px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
     border-radius: 3px;
+
+    .ng-spotlight-searchbar {
+
+      box-shadow: 0 4px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
+      .ng-spotlight-item-icon{
+        color: $secondaryColorA;
+      }
+    }
 
     .ng-spotlight-results-panel {
 

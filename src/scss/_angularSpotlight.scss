@@ -43,7 +43,8 @@ $font-family: Verdana, 'Lucida Sans Unicode', sans-serif !default;
     overflow: hidden;
 
     .ng-spotlight-searchbar {
-      position: static;
+      z-index: 10;
+      position: relative;
       height: 55px;
       background-color: $searchbar-bg;
 

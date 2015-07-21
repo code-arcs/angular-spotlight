@@ -30,10 +30,10 @@
                     return {
                         name: result.title,
                         description: jQuery('<div>' + result.snippet + '</div>').text(),
-                        updatedOn: result.timestamp,
+                        timestamp: result.timestamp,
                         size: result.size,
                         wordcount: result.wordcount,
-                        type: 'wikipedi' + result.title[0].toLowerCase()
+                        type: 'wikipedia'
                     }
                 }
 
