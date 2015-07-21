@@ -77,6 +77,11 @@ angular.module('de.stekoe.angular.spotlight', [])
                 }
             };
 
+            $scope.openResultItem = function() {
+                alert($scope.selectedItem.name);
+            };
+
+
             function resetSearch() {
                 $scope.selectedItem = undefined;
                 $scope.searchResultsCount = 0;

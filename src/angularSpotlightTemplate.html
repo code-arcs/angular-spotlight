@@ -14,7 +14,7 @@
 
         <div class="ng-spotlight-input-after" ng-if="searchInputInfo.length > 0  && searchTerm.length > 0">&mdash; {{searchInputInfo}}</div>
         <div class="ng-spotlight-results-icon">
-            <spotlight-result-icon selected-item="selectedItem"></spotlight-result-icon>
+            <spotlight-result-icon selected-item="selectedItem" ng-if="searchTerm.length > 0"></spotlight-result-icon>
         </div>
     </div>
     <div class="ng-spotlight-results-panel" ng-if="searchTerm && searchTerm.length > 0 && searchResultCount() > 0" >
@@ -26,7 +26,8 @@
                         <li class="ng-spotlight-results-list-item"
                             ng-repeat="resultItem in searchResult.items"
                             ng-class="{'active': resultItem.active === true}"
-                            ng-click="showResultItem(searchResult.name, $index)">
+                            ng-click="showResultItem(searchResult.name, $index)"
+                            ng-dblclick="openResultItem()">
 
                             <spotlight-result-icon type="{{resultItem.type || 'default'}}"></spotlight-result-icon>
 
