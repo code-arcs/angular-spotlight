@@ -39,7 +39,7 @@ angular.module('de.stekoe.angular.spotlight', [])
             $scope.showResultItem = function (categoryName, idx) {
                 var indexToSelect = 0;
 
-                for(var i = 0; i < $scope.searchResults.length; i++) {
+                for (var i = 0; i < $scope.searchResults.length; i++) {
                     if ($scope.searchResults[i].name !== categoryName) {
                         indexToSelect += $scope.searchResults[i].items.length;
                     } else {
@@ -137,7 +137,7 @@ angular.module('de.stekoe.angular.spotlight', [])
 
             $scope.$watch('selectedItemIndex', function () {
                 $timeout(function () {
-                    if($scope.selectedItemIndex !== undefined) {
+                    if ($scope.selectedItemIndex !== undefined) {
                         keepItemVisible();
                     }
                 }, 100);
@@ -172,6 +172,9 @@ angular.module('de.stekoe.angular.spotlight', [])
             $(document).click(function (e) {
                 if ($(e.target).closest('.ng-spotlight').length === 0) {
                     spotlightOverlay.hide();
+                } else {
+                    spotlightOverlay.find('input')
+                        .focus();
                 }
             });
 
@@ -282,7 +285,7 @@ angular.module('de.stekoe.angular.spotlight', [])
             }
 
             function getIconForType(type) {
-                var icon = icons[type.toLowerCase()] || icons['default'];
+                var icon = icons[(type || 'default').toLowerCase()] || icons['default'];
 
                 return {
                     data: icon,
@@ -307,7 +310,7 @@ angular.module('de.stekoe.angular.spotlight', [])
 
         function detailsTemplateConfig() {
             var detailsTemplates = {
-                'default': '<div class="ng-spotlight-results-detail-default">{{selectedItem.name}}</div>'
+                'default': '<div class="ng-spotlight-results-detail-default"><spotlight-result-icon selected-item="selectedItem"></spotlight-result-icon><div class="name">{{selectedItem.name}}</div></div>'
             };
 
             function addTemplates(templateDescriptors) {
@@ -318,7 +321,7 @@ angular.module('de.stekoe.angular.spotlight', [])
             }
 
             function getTemplateForType(type) {
-                return detailsTemplates[type.toLowerCase()] || detailsTemplates['default'];
+                return detailsTemplates[(type || 'default').toLowerCase()] || detailsTemplates['default'];
             }
 
             return {
