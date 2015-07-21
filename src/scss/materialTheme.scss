@@ -1,9 +1,9 @@
 
 // Material colors
-
-$primaryColorA: #2E7D32;
-$primaryColorB: rgba($primaryColorA, 0.80);
-$primaryColorC: rgba($primaryColorA, 0.65);;
+//$primaryColorA: #3F51B5;
+$primaryColorA: #8BC34A;
+$primaryColorB: rgba($primaryColorA, 0.87);
+$primaryColorC: rgba($primaryColorA, 0.60);;
 
 $secondaryColorA: #E8F5E9;
 $secondaryColorB: #E8F5E9;
@@ -20,18 +20,15 @@ $icon-magnifier-color: $secondaryColorB;
 // Font colors
 $results-detail-font-color: #333435;
 $searchbar-input-font-color: $secondaryColorC;
-$result-list-header-font-color: #333435;
-$placeholder-font-color:$primaryColorC;
+$result-list-header-font-color: $secondaryColorA;
+$placeholder-font-color:$secondaryColorA;
 $result-list-item-font-color: #333435;
 $result-list-item-hover-font-color: $secondaryColorB;
-//$result-list-item-font-color: $primaryColorC;
 
 // Colors for borders
 $searchbar-border-color: $primaryColorA;
 $results-list-border-color: $secondaryColorC;
-$overlay-border-color: rgba(#333435, 0.1);
-
-
+$overlay-border-color: none;
 
 @import "_angularSpotlight";
 
