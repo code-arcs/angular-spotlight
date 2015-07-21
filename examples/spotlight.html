@@ -4,28 +4,34 @@
     <meta charset="UTF-8">
     <title></title>
     <link href="../node_modules/font-awesome/css/font-awesome.min.css" type="text/css" rel="stylesheet">
-
     <script src="../node_modules/jquery/dist/jquery.js"></script>
     <script src="../node_modules/angular/angular.js"></script>
     <script src="app.js"></script>
-
     <link href="../dist/darkTheme.min.css" type="text/css" rel="stylesheet">
     <link href="../dist/materialTheme.min.css" type="text/css" rel="stylesheet">
     <!--<script src="../dist/angularSpotlight.min.js"></script>-->
-
     <script src="../vendors/jquery.autogrow.js"></script>
     <script src="../src/angularSpotlight.js"></script>
     <script src="../src/angularSpotlightTemplate.html.js"></script>
-
     <style>
         body {
             background-image: url(materialBackground.png);
             background-size: cover;
             background-repeat: no-repeat;
         }
+
+        .btn-search {
+            background-color: rgba(0, 0, 0, 0.3);
+            position: absolute;;
+            top: 0;
+            right: 0;
+            padding: 15px;
+            color: #fffcff;
+        }
     </style>
 </head>
 <body ng-app="de.stekoe.angular.spotlight.example">
-    <spotlight-overlay></spotlight-overlay>
+<a href="#" data-toggle="ng-spotlight" class="btn-search"><span class="fa fa-search"></span></a>
+<spotlight-overlay></spotlight-overlay>
 </body>
 </html>

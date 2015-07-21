@@ -170,11 +170,17 @@ angular.module('de.stekoe.angular.spotlight', [])
             var spotlightOverlay = $(element).children();
             $ngSpotlightOverlay = $(element);
 
+            $('[data-toggle="ng-spotlight"]').on('click', function(e) {
+                e.stopPropagation();
+                toggleOverlay();
+            });
+
             $(document).click(function (e) {
                 if ($(e.target).closest('.ng-spotlight').length === 0) {
                     spotlightOverlay.hide();
                 } else {
-                    spotlightOverlay.find('input')
+                    spotlightOverlay
+                        .find('input')
                         .focus();
                 }
             });
@@ -182,14 +188,18 @@ angular.module('de.stekoe.angular.spotlight', [])
             $(document).keydown(function (e) {
                 if (e.ctrlKey && e.keyCode === KEY.SPACE) {
                     e.preventDefault();
-                    spotlightOverlay.toggle();
-                    if (spotlightOverlay.is(':visible')) {
-                        spotlightOverlay.find('input')
-                            .focus()
-                            .select();
-                    }
+                    toggleOverlay();
                 }
             });
+
+            function toggleOverlay() {
+                spotlightOverlay.toggle();
+                if (spotlightOverlay.is(':visible')) {
+                    spotlightOverlay.find('input')
+                        .focus()
+                        .select();
+                }
+            }
 
             $ngSpotlightOverlay.find('.ng-spotlight-input').autoGrowInput({
                 maxWidth: 400,
