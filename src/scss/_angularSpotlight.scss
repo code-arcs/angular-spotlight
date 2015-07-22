@@ -27,6 +27,7 @@ $font-family: Verdana, 'Lucida Sans Unicode', sans-serif !default;
     position: absolute;
     top: 20%;
     left: 50%;
+    z-index: 2147483647; // Le Max Int32 ;)
     margin-left: -340px;
     width: 680px;
     display: none;
