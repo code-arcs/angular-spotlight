@@ -45,4 +45,4 @@ Thanks to Lukas @Pandaros for adding the light theme as well as the Material Des
 ## Third Party Libs
  * We adopted the behavior, look and feel from Apple's Spotlight from Mac OS
  * Implements InputGrow Feature implemented by James Padolsey
- * Background of Material Design Theme is taken from Google's Material Design Guide
+ * Background of Material Design Theme is taken from Google's Material Design Guide ([1](https://plus.google.com/photos/+BrianParkerson/albums/6079410227152958097/6079410228948829362?pid=6079410228948829362&oid=110417708449272621219))
