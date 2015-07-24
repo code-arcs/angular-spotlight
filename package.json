@@ -11,6 +11,7 @@
   "author": "Stephan Koeninger",
   "license": "Apache 2.0",
   "devDependencies": {
+    "angular-mocks": "^1.4.3",
     "del": "^1.2.0",
     "gulp": "^3.9.0",
     "gulp-angular-templates": "0.0.2",
@@ -19,6 +20,11 @@
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.0.3",
     "gulp-uglify": "^1.2.0",
+    "jasmine": "^2.3.1",
+    "jasmine-core": "^2.3.4",
+    "karma-jasmine": "^0.3.6",
+    "karma-phantomjs-launcher": "^0.2.0",
+    "phantomjs": "^1.9.17",
     "run-sequence": "^1.1.2"
   }
 }
