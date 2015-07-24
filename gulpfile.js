@@ -6,9 +6,14 @@ var rename = require('gulp-rename');
 var angularTemplates = require('gulp-angular-templates');
 var del = require('del');
 var uglify = require('gulp-uglify');
+var runSequence = require('run-sequence');
 
 gulp.task('clear:dist', function(done) {
     del('./dist', done);
+});
+
+gulp.task('clear:example', function(done) {
+    del(['./examples/js/angularSpotlight.min.js','./examples/css/*.min.css'], done);
 });
 
 gulp.task('copy:static', function () {
@@ -16,10 +21,18 @@ gulp.task('copy:static', function () {
         .pipe(gulp.dest('./dist/'));
 });
 
+gulp.task('copy:static:example', function() {
+    gulp.src('./dist/*.css')
+        .pipe(gulp.dest('./examples/css/'));
+
+    gulp.src('./dist/*.js')
+        .pipe(gulp.dest('./examples/js/'));
+});
+
 gulp.task('compile:angular:template', function () {
-    return gulp.src('src/angularSpotlightTemplate.html')
+    return gulp.src('./src/directive/spotlightOverlayTemplate.html')
         .pipe(angularTemplates({module: 'de.stekoe.angular.spotlight'}))
-        .pipe(gulp.dest('./src/'));
+        .pipe(gulp.dest('./src/directive/'));
 });
 
 gulp.task('compile:sass', function() {
@@ -41,5 +54,10 @@ gulp.task('compile:js', ['compile:angular:template'], function() {
         .pipe(gulp.dest('./dist/'));
 });
 
-gulp.task('build', ['compile:js', 'compile:sass', 'copy:static'], function() {
+gulp.task('build:example', ['build'], function(done) {
+    runSequence('clear:example', 'copy:static:example', done);
+});
+
+gulp.task('build', function(done) {
+    runSequence('clear:dist', ['compile:js', 'compile:sass', 'copy:static'], done);
 });

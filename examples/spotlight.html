@@ -2,36 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
-    <link href="../node_modules/font-awesome/css/font-awesome.min.css" type="text/css" rel="stylesheet">
-    <script src="../node_modules/jquery/dist/jquery.js"></script>
-    <script src="../node_modules/angular/angular.js"></script>
-    <script src="app.js"></script>
-    <link href="../dist/darkTheme.min.css" type="text/css" rel="stylesheet">
-    <link href="../dist/materialTheme.min.css" type="text/css" rel="stylesheet">
-    <!--<script src="../dist/angularSpotlight.min.js"></script>-->
-    <script src="../vendors/jquery.autogrow.js"></script>
-    <script src="../src/angularSpotlight.js"></script>
-    <script src="../src/angularSpotlightTemplate.html.js"></script>
-    <style>
-        body {
-            background-image: url(materialBackground.png);
-            background-size: cover;
-            background-repeat: no-repeat;
-        }
+    <title>Angular Spotlight Directive | Examples</title>
 
-        .btn-search {
-            background-color: rgba(0, 0, 0, 0.3);
-            position: absolute;;
-            top: 0;
-            right: 0;
-            padding: 15px;
-            color: #fffcff;
-        }
-    </style>
+    <!-- Required Dependencies -->
+    <script src="../node_modules/jquery/dist/jquery.js"></script>
+    <link href="../node_modules/font-awesome/css/font-awesome.min.css" type="text/css" rel="stylesheet">
+
+    <!-- Angular Spotlight -->
+    <link href="css/materialTheme.min.css" type="text/css" rel="stylesheet" id="angular-theme">
+    <script src="../node_modules/angular/angular.js"></script>
+    <script src="js/exampleApp.js"></script>
+    <script src="js/angularSpotlight.min.js"></script>
+
+    <!-- Example Sources -->
+    <link href="css/example.css" type="text/css" rel="stylesheet">
+    <script src="js/example.js"></script>
 </head>
 <body ng-app="de.stekoe.angular.spotlight.example">
-<a href="#" data-toggle="ng-spotlight" class="btn-search"><span class="fa fa-search"></span></a>
-<spotlight-overlay></spotlight-overlay>
+    <div class="toolbar">
+        <a href="#" data-toggle="ng-spotlight" class="btn"><span class="fa fa-search"></span></a>
+        <a href="#" class="btn btn-theme" data-theme="material">Material Design</a>
+        <a href="#" class="btn btn-theme" data-theme="dark">Dark</a>
+        <a href="#" class="btn btn-theme" data-theme="light">Light</a>
+    </div>
+
+    <spotlight-overlay></spotlight-overlay>
 </body>
 </html>
