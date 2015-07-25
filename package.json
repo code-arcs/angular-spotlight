@@ -26,5 +26,8 @@
     "karma-phantomjs-launcher": "^0.2.0",
     "phantomjs": "^1.9.17",
     "run-sequence": "^1.1.2"
+  },
+  "scripts" : {
+    "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS"
   }
 }
