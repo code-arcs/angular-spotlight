@@ -14,7 +14,7 @@ angular.module('de.stekoe.angular.spotlight', [])
         return {
             restrict: 'E',
             replace: true,
-            controller: controller,
+            controller: controller(),
             link: link,
             templateUrl: 'spotlightOverlayTemplate.html'
         };
@@ -36,7 +36,8 @@ angular.module('de.stekoe.angular.spotlight', [])
                                         return prev + cur;
                                     }, 0);
 
-                                selectItemAtIndex($scope.selectedItemIndex);
+                                setSearchInputInfo();
+                                selectItemAtIndex(0);
                             });
                     }
                 };
@@ -57,6 +58,11 @@ angular.module('de.stekoe.angular.spotlight', [])
                     }
 
                     selectItemAtIndex(indexToSelect + idx);
+
+                    $ngSpotlightOverlay
+                        .find('input')
+                        .focus()
+                        .select();
                 };
 
                 /**
@@ -129,14 +135,13 @@ angular.module('de.stekoe.angular.spotlight', [])
 
                 function setSearchInputInfo(categoryName) {
                     $scope.searchInputInfo = undefined;
+
                     if ($scope.searchTerm.length === 0) {
                         $scope.searchInputInfo = undefined;
-                    } else {
-                        if ($scope.selectedItem) {
-                            $scope.searchInputInfo = $scope.selectedItem.name + " - " + categoryName;
-                        } else if ($scope.searchResultCount() === 0) {
-                            $scope.searchInputInfo = "Keine Ergebnisse";
-                        }
+                    } else if ($scope.searchResultsCount === 0) {
+                        $scope.searchInputInfo = "Keine Ergebnisse";
+                    } else if ($scope.selectedItem) {
+                        $scope.searchInputInfo = $scope.selectedItem.name + " - " + categoryName;
                     }
                 }
 
@@ -176,13 +181,13 @@ angular.module('de.stekoe.angular.spotlight', [])
         }
 
         function link(scope, element) {
-            var spotlightOverlay = $(element).children();
             $ngSpotlightOverlay = $(element);
 
-            $('[data-toggle="ng-spotlight"]').on('click', function (e) {
-                e.stopPropagation();
-                toggleOverlay();
-            });
+            $('[data-toggle="ng-spotlight"]')
+                .on('click', function (e) {
+                    e.stopPropagation();
+                    toggleOverlay();
+                });
 
             $(document)
                 .on('keydown', function (e) {
@@ -193,30 +198,30 @@ angular.module('de.stekoe.angular.spotlight', [])
                 })
                 .on('click', function (e) {
                     if ($(e.target).closest('.ng-spotlight').length === 0) {
-                        spotlightOverlay.hide();
+                        $ngSpotlightOverlay.hide();
                     } else {
-                        spotlightOverlay
+                        $ngSpotlightOverlay
                             .find('input')
                             .focus();
                     }
                 });
 
             function toggleOverlay() {
+                $ngSpotlightOverlay.toggle();
+
                 if ($ngSpotlightOverlay.is(':visible')) {
-                    $ngSpotlightOverlay.hide();
-                } else {
                     $ngSpotlightOverlay
-                        .show()
                         .find('input')
                         .focus()
                         .select();
                 }
             }
 
-            $ngSpotlightOverlay.find('.ng-spotlight-input').autoGrowInput({
-                maxWidth: 400,
-                minWidth: 10,
-                comfortZone: 15
-            });
+            $ngSpotlightOverlay
+                .find('.ng-spotlight-input').autoGrowInput({
+                    maxWidth: 400,
+                    minWidth: 10,
+                    comfortZone: 15
+                });
         }
     }]);

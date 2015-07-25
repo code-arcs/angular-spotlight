@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Angular Spotlight Directive | Examples</title>
+
+    <!-- Required Dependencies -->
+    <script src="../node_modules/jquery/dist/jquery.js"></script>
+    <script src="../vendors/jquery.autogrow.js"></script>
+    <link href="../node_modules/font-awesome/css/font-awesome.min.css" type="text/css" rel="stylesheet">
+    <link href="../examples/css/example.css" type="text/css" rel="stylesheet">
+
+    <!-- Angular Spotlight Development Dependencies -->
+    <link href="../dist/materialTheme.min.css" type="text/css" rel="stylesheet" id="angular-theme">
+    <script src="../node_modules/angular/angular.js"></script>
+    <script src="spotlight/spotlightOverlay.js"></script>
+    <script src="spotlight/directive/spotlightDetailsPanel.js"></script>
+    <script src="spotlight/directive/spotlightResultIcon.js"></script>
+    <script src="spotlight/directive/spotlightOverlayTemplate.html.js"></script>
+    <script src="spotlight/provider/spotlight.js"></script>
+
+    <script src="../examples/js/exampleApp.js"></script>
+</head>
+<body ng-app="de.stekoe.angular.spotlight.example">
+    <div class="toolbar">
+        <a href="#" data-toggle="ng-spotlight" class="btn"><span class="fa fa-search"></span></a>
+        <a href="#" class="btn btn-theme" data-theme="material">Material Design</a>
+        <a href="#" class="btn btn-theme" data-theme="dark">Dark</a>
+        <a href="#" class="btn btn-theme" data-theme="light">Light</a>
+    </div>
+
+    <spotlight-overlay></spotlight-overlay>
+</body>
+</html>

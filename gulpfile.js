@@ -30,9 +30,9 @@ gulp.task('copy:static:example', function() {
 });
 
 gulp.task('compile:angular:template', function () {
-    return gulp.src('./src/directive/spotlightOverlayTemplate.html')
+    return gulp.src('./src/spotlight/directive/*.html')
         .pipe(angularTemplates({module: 'de.stekoe.angular.spotlight'}))
-        .pipe(gulp.dest('./src/directive/'));
+        .pipe(gulp.dest('./src/spotlight/directive/'));
 });
 
 gulp.task('compile:sass', function() {
