@@ -1,4 +1,7 @@
-# Angular Spotlight
+# Angular Spotlight 
+
+[![Build Status](https://travis-ci.org/SteKoe/angular-spotlight.svg)](https://travis-ci.org/SteKoe/angular-spotlight)
+[![Dependency Status](https://david-dm.org/SteKoe/angular-spotlight.svg)](https://david-dm.org/SteKoe/angular-spotlight)
 
 Spotlight is _the_ awesome search feature of Mac OS X.
 Now it is time to move this piece of software into the web area.
