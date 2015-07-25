@@ -7,6 +7,7 @@ angular.module('de.stekoe.angular.spotlight')
 
         return {
             restrict: "E",
+            remove: true,
             scope: {
                 selectedItem: '='
             },

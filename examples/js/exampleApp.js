@@ -10,7 +10,7 @@
             function jsonFileSearch() {
                 AngularSpotlightProvider.search = function ($http) {
                     return function () {
-                        return $http.get('search.json')
+                        return $http.get('js/search.json')
                             .then(function (resp) {
                                 var searchResults = resp.data;
                                 return searchResults;
