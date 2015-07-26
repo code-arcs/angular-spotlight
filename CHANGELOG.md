@@ -1,6 +1,6 @@
 __Angular Spotlight__
 
-#   (2015-07-25)
+#   (2015-07-26)
 
 
 
@@ -24,6 +24,8 @@ __Angular Spotlight__
 
 - **karma:** adds basic directive tests
   ([f2c0d44e](https://github.com/SteKoe/angular-spotlight/commit/f2c0d44e2fbb95cde46a5024337fca9d0e4896cb))
+- **result-panel-templates:** allows users to specify templates via html file instead of inline html
+  ([9b76445b](https://github.com/SteKoe/angular-spotlight/commit/9b76445b5ba31b9372c921344630d950dff0d4dd))
 
 
 
