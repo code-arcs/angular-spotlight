@@ -17,9 +17,10 @@ The preliminary JSON format which is consumed by the directive is as follows:
     "name": "I am a category",
     "items": [
         {
-            "name": "First result in category",
-            "type": "your-custom-type",
-            "description": "Whatever description",
+            "name": "First result in category", // Will be shown in the results list panel
+            "type": "your-custom-type", // Will be used to load custom icons / templates in the result item detail panel
+            "href": "http://...", // Link which will be triggered when user double clicks on result item or uses enter key
+            "description": "Whatever description", // Additional attriutes which can be accessed in custom result item detail panel
             ...
         },
         ...
