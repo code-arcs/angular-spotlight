@@ -1,7 +1,7 @@
 {
   "name": "angular-spotlight",
   "version": "1.0.0",
-  "description": "Mac OS X like Spotlight Overlay for displaying search results.",
+  "description": "Mac OS X like Spotlight Overlay for displaying search results on a web page.",
   "main": "index.js",
   "dependencies": {
     "angular": "^1.4.2",
@@ -13,6 +13,7 @@
   "devDependencies": {
     "angular-mocks": "^1.4.3",
     "del": "^1.2.0",
+    "git-changelog": "^0.1.8",
     "gulp": "^3.9.0",
     "gulp-angular-templates": "0.0.2",
     "gulp-concat": "^2.6.0",
@@ -27,7 +28,8 @@
     "phantomjs": "^1.9.17",
     "run-sequence": "^1.1.2"
   },
-  "scripts" : {
-    "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS"
+  "scripts": {
+    "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS",
+    "changelog": "./node_modules/git-changelog/tasks/command.js --app_name \"Angular Spotlight\" --tag false -e"
   }
 }

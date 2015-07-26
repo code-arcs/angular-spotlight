@@ -13,11 +13,11 @@ gulp.task('clear:dist', function(done) {
 });
 
 gulp.task('clear:example', function(done) {
-    del(['./examples/js/angularSpotlight.min.js','./examples/css/*.min.css'], done);
+    del(['./examples/js/angularSpotlight.min.js','./examples/css/*.min.css', './examples/templates'], done);
 });
 
 gulp.task('copy:static', function () {
-    return gulp.src('./src/img/*.*')
+    return gulp.src(['./src/img/*.*'])
         .pipe(gulp.dest('./dist/'));
 });
 
@@ -27,11 +27,14 @@ gulp.task('copy:static:example', function() {
 
     gulp.src('./dist/*.js')
         .pipe(gulp.dest('./examples/js/'));
+
+    gulp.src('./src/templates/*.html')
+        .pipe(gulp.dest('./examples/templates/'));
 });
 
 gulp.task('compile:angular:template', function () {
     return gulp.src('./src/spotlight/directive/*.html')
-        .pipe(angularTemplates({module: 'de.stekoe.angular.spotlight'}))
+        .pipe(angularTemplates({module: 'de.stekoe.angular.spotlight', basePath: 'spotlight/directive/'}))
         .pipe(gulp.dest('./src/spotlight/directive/'));
 });
 

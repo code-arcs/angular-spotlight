@@ -1,35 +1,34 @@
 angular.module('de.stekoe.angular.spotlight')
     .directive('spotlightResultIcon', ['$compile', 'AngularSpotlight', function ($compile, AngularSpotlight) {
-        var iconTemplates = {
-            'url': '<img class="ng-spotlight-item-icon" ng-src="{{iconDescriptor.data}}">',
-            'css': '<div class="ng-spotlight-item-icon {{iconDescriptor.data}}"></div>'
-        };
+        var iconTemplates = [
+            '<img ng-if="iconTypeIs(\'url\')" class="ng-spotlight-item-icon" ng-src="{{iconDescriptor.data}}">',
+            '<div ng-if="iconTypeIs(\'css\')" class="ng-spotlight-item-icon {{iconDescriptor.data}}"></div>'
+        ];
 
         return {
             restrict: "E",
             remove: true,
+            template: iconTemplates.join(''),
             scope: {
                 selectedItem: '='
             },
             link: function (scope, element, attrs) {
-                if (attrs.type) {
-                    updateResultIcon(AngularSpotlight.getIconDescriptorForType(attrs.type));
-                } else {
+                var isStaticIcon = (attrs.type !== undefined);
+                if(!isStaticIcon) {
                     scope.$watch('selectedItem', function () {
                         if (scope.selectedItem) {
-                            updateResultIcon(AngularSpotlight.getIconDescriptorForType(scope.selectedItem.type));
-                        } else {
-                            element.html("");
+                            scope.iconDescriptor = AngularSpotlight.getIconDescriptorForType(scope.selectedItem.type);
+                            console.log(scope.iconDescriptor);
                         }
-                    })
+                    });
+                } else {
+                    scope.iconDescriptor = AngularSpotlight.getIconDescriptorForType(attrs.type);
                 }
 
-                function updateResultIcon(iconDescriptor) {
-                    var iconTemplate = iconTemplates[iconDescriptor.type];
-                    element.html(iconTemplate).show();
-                    $compile(element.contents())(scope);
-                    scope.iconDescriptor = iconDescriptor;
-                }
+                // Functions
+                scope.iconTypeIs = function(type) {
+                    return scope.selectedItem && scope.iconDescriptor && scope.iconDescriptor.type === type;
+                };
             }
         }
     }]);

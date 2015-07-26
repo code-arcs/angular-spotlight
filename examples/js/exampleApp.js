@@ -2,7 +2,7 @@
     angular.module('de.stekoe.angular.spotlight.example', ['de.stekoe.angular.spotlight'])
         .config(function configuration(AngularSpotlightProvider) {
 
-            wikipediaSearch();
+            jsonFileSearch();
 
             /*
              * Example using static Json File
@@ -72,17 +72,7 @@
 
             function addCustomTemplates() {
                 AngularSpotlightProvider.addTemplates({
-                    'wikipedia':   '<div class="ng-spotlight-results-detail-wikipedia">\
-                                        <div class="title">{{selectedItem.name}}</div>\
-                                        <div class="description">{{selectedItem.description}}</div>\
-                                        <div class="footer">\
-                                            <dl>\
-                                                <dt>{{"Last update"}}</dt><dd>{{selectedItem.timestamp | date}}</dd>\
-                                                <dt>{{"Word count"}}</dt><dd>{{selectedItem.wordcount}}</dd>\
-                                                <dt>{{"Size"}}</dt><dd>{{selectedItem.size}}</dd>\
-                                            </dl>\
-                                        </div>\
-                                    </div>',
+                    'wikipedia':   'templates/wikipedia.html',
                     'vcard':       '<div class="ng-spotlight-results-detail-vcard">\
                                         <div class="profile-image"><span class="fa fa-user"></span></div>\
                                         <ul>\

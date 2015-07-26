@@ -1,0 +1,87 @@
+[
+  {
+    "name": "Wikipedia",
+    "items": [
+      {
+        "name": "List A cricket",
+        "description": "List <span class=\"searchmatch\">A</span> cricket is <span class=\"searchmatch\">a</span> classification of the limited-overs (one-day) form of the sport of cricket. Much as domestic first-class cricket is the level below",
+        "size": 3188,
+        "wordcount": 376,
+        "timestamp": "2015-07-16T15:35:21Z",
+        "type": "wikipedia"
+      },
+      {
+        "name": "A priori",
+        "description": "<span class=\"searchmatch\">A</span> priori may refer to: <span class=\"searchmatch\">A</span> priori knowledge, that is justified by arguments of <span class=\"searchmatch\">a</span> certain kind <span class=\"searchmatch\">A</span> priori (languages), <span class=\"searchmatch\">a</span> type of constructed language <span class=\"searchmatch\">A</span> priori",
+        "size": 768,
+        "wordcount": 76,
+        "timestamp": "2014-10-28T19:24:28Z",
+        "type": "wikipedia"
+      },
+      {
+        "name": "The A.V. Club",
+        "description": "other elements of pop culture. The <span class=\"searchmatch\">A</span>.V. Club was initially created in 1993 as <span class=\"searchmatch\">a</span> supplemental part of The Onion and had <span class=\"searchmatch\">a</span> minimal presence on The Onion\u2019s",
+        "size": 18766,
+        "wordcount": 1806,
+        "timestamp": "2015-07-17T03:55:45Z",
+        "type": "wikipedia"
+      },
+      {
+        "name": "Mafia",
+        "description": "Mafia&quot;, see American Mafia.  For other uses, see Mafia (disambiguation). <span class=\"searchmatch\">A</span> mafia is <span class=\"searchmatch\">a</span> type of organized crime syndicate whose primary activities are protection",
+        "size": 15176,
+        "wordcount": 1825,
+        "timestamp": "2015-07-10T17:52:27Z",
+        "type": "wikipedia"
+      }
+    ]
+  },
+  {
+    "name": "vCards",
+    "items": [
+      {
+        "type": "vCard",
+        "name":"Max Mustermann",
+        "phone": "01234/123849",
+        "fax": "01234/123849",
+        "email": "mail@example.com",
+        "www": "http://example.com"
+      }
+    ]
+  },
+  {
+    "name": "Misc",
+    "items": [
+      {
+        "name": "Item 1"
+      },
+      {
+        "name": "Item 2"
+      },
+      {
+        "name": "Item 3"
+      },
+      {
+        "name": "Item 4"
+      },
+      {
+        "name": "Item 5"
+      },
+      {
+        "name": "Item 6"
+      },
+      {
+        "name": "Item 7"
+      },
+      {
+        "name": "Item 8"
+      },
+      {
+        "name": "Item 9"
+      },
+      {
+        "name": "Item 10"
+      }
+    ]
+  }
+]

@@ -16,7 +16,7 @@ angular.module('de.stekoe.angular.spotlight', [])
             replace: true,
             controller: controller(),
             link: link,
-            templateUrl: 'spotlightOverlayTemplate.html'
+            templateUrl: 'spotlight/directive/spotlightOverlayTemplate.html'
         };
 
         function controller() {
