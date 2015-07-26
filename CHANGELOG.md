@@ -16,6 +16,8 @@ __Angular Spotlight__
   ([7bcb33a8](https://github.com/SteKoe/angular-spotlight/commit/7bcb33a87d409c847db2156ac21d446d715ad350))
 - **keepItemVisible:** scroll to the specific result item in list, when out of viewbox
   ([950fd0ed](https://github.com/SteKoe/angular-spotlight/commit/950fd0edee1634bded65fdaee39f45a417bdb1e3))
+- **resultIconDirective:** removes result icon directive
+  ([1568baf9](https://github.com/SteKoe/angular-spotlight/commit/1568baf94bfe83e55ae593f9392201d7b82e4b26))
 - **results-list:** list scrolls to top again when selecting an element out of scope
   ([0502b7e4](https://github.com/SteKoe/angular-spotlight/commit/0502b7e42ec87140ac4d702bc25b72dbd2271026))
 
