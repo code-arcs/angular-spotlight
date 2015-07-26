@@ -43,7 +43,7 @@ angular.module('de.stekoe.angular.spotlight', [])
                 };
 
                 $scope.getIconForType = function (type) {
-                    return AngularSpotlight.getIconForType(type);
+                    return AngularSpotlight.getIconDescriptorForType(type);
                 };
 
                 $scope.showResultItem = function (categoryName, idx) {

@@ -14,8 +14,9 @@
         <input class="ng-spotlight-input" ng-class="{'empty': searchTerm.length === 0}" type="text" placeholder="Spotlight-Suche" ng-model="searchTerm" ng-change="search()"/>
 
         <div class="ng-spotlight-input-after" ng-if="searchInputInfo.length > 0  && searchTerm.length > 0">&mdash; {{searchInputInfo}}</div>
-        <div class="ng-spotlight-results-icon">
-            <spotlight-result-icon selected-item="selectedItem" ng-if="searchTerm.length > 0"></spotlight-result-icon>
+        <div class="ng-spotlight-results-icon" ng-if="searchTerm.length > 0">
+            <img ng-if="getIconForType(selectedItem.type).type == 'url'" class="ng-spotlight-item-icon" ng-src="{{getIconForType(selectedItem.type).data}}">
+            <div ng-if="getIconForType(selectedItem.type).type == 'css'" class="ng-spotlight-item-icon {{getIconForType(selectedItem.type).data}}"></div>
         </div>
     </div>
     <div class="ng-spotlight-results-panel" ng-if="searchTerm && searchTerm.length > 0 && searchResultsCount > 0" >
@@ -30,7 +31,8 @@
                             ng-click="showResultItem(searchResult.name, $index)"
                             ng-dblclick="openResultItem()">
 
-                            <spotlight-result-icon type="{{resultItem.type || 'default'}}"></spotlight-result-icon>
+                            <img ng-if="getIconForType(resultItem.type).type == 'url'" class="ng-spotlight-item-icon" ng-src="{{getIconForType(resultItem.type).data}}">
+                            <div ng-if="getIconForType(resultItem.type).type == 'css'" class="ng-spotlight-item-icon {{getIconForType(resultItem.type).data}}"></div>
 
                             {{resultItem.name}}
 

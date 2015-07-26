@@ -3,22 +3,24 @@ angular.module('de.stekoe.angular.spotlight')
         var _iconConfig = iconConfig();
         var _detailsTemplateConfig = detailsTemplateConfig();
 
-        this.search = function () {
-            throw "You have to implement a search function using AngularSpotlightProvider!";
+        // === LE PUBLIC API ====================
+        return {
+            search: function () {
+                throw "You have to implement a search function using AngularSpotlightProvider!";
+            },
+            addIcons: _iconConfig.addIcons,
+            addTemplates: _detailsTemplateConfig.addTemplates,
+            $get: ['$http', function ($http) {
+                var that = this;
+                return {
+                    search: that.search($http),
+                    getIconDescriptorForType: _iconConfig.getIconForType,
+                    getTemplateForType: _detailsTemplateConfig.getTemplateForType
+                };
+            }]
         };
 
-        this.addIcons = _iconConfig.addIcons;
-        this.addTemplates = _detailsTemplateConfig.addTemplates;
-
-        this.$get = ['$http', function ($http) {
-            var that = this;
-            return {
-                search: that.search($http),
-                getIconDescriptorForType: _iconConfig.getIconForType,
-                getTemplateForType: _detailsTemplateConfig.getTemplateForType
-            };
-        }];
-
+        // === LE HELPER ====================
         function iconConfig() {
             var icons = {
                 'default': 'fa fa-file'
