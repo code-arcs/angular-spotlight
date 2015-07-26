@@ -60,10 +60,56 @@ describe('Spotlight Overlay', function () {
         initWithSearchFunction();
 
         inject(function ($compile, $rootScope) {
-            var element = createSpotlightOverlayElement($compile, $rootScope);
+            createSpotlightOverlayElement($compile, $rootScope);
             triggerKeyDown($(document), 32, {ctrlKey: true});
 
             expect($('.ng-spotlight-results-panel').length).toBe(0);
+        });
+    });
+
+    it('result panel is visible when search results exist and info container shows category and name of selected item.', function () {
+        initWithSearchFunction();
+
+        inject(function ($compile, $rootScope, $httpBackend) {
+            $httpBackend.when('GET', '/test.json').respond([
+                {
+                    name: "Category 1",
+                    items: [
+                        {name: "ResultItem", type: "A"},
+                        {name: "B", type: "B"},
+                        {name: "C", type: "C"}
+                    ]
+                }
+            ]);
+
+            $rootScope.searchTerm = "whatever";
+            createSpotlightOverlayElement($compile, $rootScope);
+
+            $rootScope.search();
+            $httpBackend.flush();
+
+            expect($('.ng-spotlight-input-after').length).toBe(1); // The info container should be visible...
+            expect($('.ng-spotlight-input-after').text()).toContain("Category 1"); // ... and showing "Category 1" ...
+            expect($('.ng-spotlight-input-after').text()).toContain("ResultItem"); // ... as well as "ResultItem" ...
+            expect($('.ng-spotlight-results-panel').length).toBe(1); // .. and the results panel is visible.
+        });
+    });
+
+    it('result panel is not visible when there are no search results and info container should state "no results".', function () {
+        initWithSearchFunction();
+
+        inject(function ($compile, $rootScope, $httpBackend) {
+            $httpBackend.when('GET', '/test.json').respond([]);
+
+            $rootScope.searchTerm = "whatever";
+            createSpotlightOverlayElement($compile, $rootScope);
+
+            $rootScope.search();
+            $httpBackend.flush();
+
+            expect($('.ng-spotlight-input-after').length).toBe(1); // The info container should be visible...
+            expect($('.ng-spotlight-input-after').text()).toContain("Keine Ergebnisse"); // ... and showing "no results" ...
+            expect($('.ng-spotlight-results-panel').length).toBe(0); // ... and the results panel is closed.
         });
     });
 
@@ -73,6 +119,7 @@ describe('Spotlight Overlay', function () {
         var html = angular.element("<spotlight-overlay></spotlight-overlay>");
         var element = $compile(html)($rootScope);
 
+        $(".ng-spotlight").remove();
         $("body").append(element);
         $rootScope.$digest();
 
@@ -88,7 +135,14 @@ describe('Spotlight Overlay', function () {
 
     function initWithSearchFunction() {
         module('de.stekoe.angular.spotlight', function (AngularSpotlightProvider) {
-            AngularSpotlightProvider.search = function() {};
+            AngularSpotlightProvider.search = function ($http) {
+                return function (term) {
+                    return $http.get('/test.json')
+                        .then(function(resp) {
+                            return resp.data;
+                        });
+                }
+            };
         })
     }
 });
