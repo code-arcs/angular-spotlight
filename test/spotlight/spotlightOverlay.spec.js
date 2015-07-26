@@ -1,5 +1,5 @@
 describe('Spotlight Overlay', function () {
-    beforeEach(function() {
+    beforeEach(function () {
         $(document)
             .off('click')
             .off('keydown');
@@ -17,6 +17,7 @@ describe('Spotlight Overlay', function () {
         function actual() {
             $compile("<spotlight-overlay></spotlight-overlay>")($rootScope)
         }
+
         expect(actual).toThrow("You have to implement a search function using AngularSpotlightProvider!")
     });
 
@@ -82,9 +83,9 @@ describe('Spotlight Overlay', function () {
                 }
             ]);
 
-            $rootScope.searchTerm = "whatever";
             createSpotlightOverlayElement($compile, $rootScope);
 
+            $rootScope.searchTerm = "whatever";
             $rootScope.search();
             $httpBackend.flush();
 
@@ -95,15 +96,41 @@ describe('Spotlight Overlay', function () {
         });
     });
 
-    it('result panel is not visible when there are no search results and info container should state "no results".', function () {
+    it('search term is selected when overlay is reopened.', function () {
         initWithSearchFunction();
 
         inject(function ($compile, $rootScope, $httpBackend) {
             $httpBackend.when('GET', '/test.json').respond([]);
 
+            // 1st: open overlay
+            createSpotlightOverlayElement($compile, $rootScope);
+            triggerKeyDown($(document), 32, {ctrlKey: true});
+            var selectedTextAfterOpen = getSelectionText();
+
+            // 2nd: Enter search term
             $rootScope.searchTerm = "whatever";
+            $rootScope.search();
+            $httpBackend.flush();
+
+            // 3rd: close and reopen overlay
+            triggerKeyDown($(document), 32, {ctrlKey: true});
+            triggerKeyDown($(document), 32, {ctrlKey: true});
+            var selectedTextAfterReopen = getSelectionText();
+
+            expect(selectedTextAfterOpen).toBe('');
+            expect(selectedTextAfterReopen).toBe($rootScope.searchTerm);
+        });
+    });
+
+    it('results panel is hidden, when no search results are available and info container shows "No Results"', function () {
+        initWithSearchFunction();
+
+        inject(function ($compile, $rootScope, $httpBackend) {
+            $httpBackend.when('GET', '/test.json').respond([]);
+
             createSpotlightOverlayElement($compile, $rootScope);
 
+            $rootScope.searchTerm = "whatever";
             $rootScope.search();
             $httpBackend.flush();
 
@@ -138,11 +165,21 @@ describe('Spotlight Overlay', function () {
             AngularSpotlightProvider.search = function ($http) {
                 return function (term) {
                     return $http.get('/test.json')
-                        .then(function(resp) {
+                        .then(function (resp) {
                             return resp.data;
                         });
                 }
             };
         })
+    }
+
+    function getSelectionText() {
+        var text = "";
+        if (window.getSelection) {
+            text = window.getSelection().toString();
+        } else if (document.selection && document.selection.type != "Control") {
+            text = document.selection.createRange().text;
+        }
+        return text;
     }
 });
