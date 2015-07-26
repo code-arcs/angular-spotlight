@@ -10,10 +10,10 @@ angular.module('de.stekoe.angular.spotlight')
             },
             addIcons: _iconConfig.addIcons,
             addTemplates: _detailsTemplateConfig.addTemplates,
-            $get: ['$http', function ($http) {
+            $get: ['$http', '$q', function ($http, $q) {
                 var that = this;
                 return {
-                    search: that.search($http),
+                    search: that.search($http, $q),
                     getIconDescriptorForType: _iconConfig.getIconForType,
                     getTemplateForType: _detailsTemplateConfig.getTemplateForType
                 };
@@ -59,7 +59,7 @@ angular.module('de.stekoe.angular.spotlight')
 
         function detailsTemplateConfig() {
             var detailsTemplates = {
-                'default': '<div class="ng-spotlight-results-detail-default"><spotlight-result-icon selected-item="selectedItem"></spotlight-result-icon><div class="name">{{selectedItem.name}}</div></div>'
+                'default': '<div class="ng-spotlight-results-detail-default"><img ng-if="getIconForType(selectedItem.type).type == \'url\'" class="ng-spotlight-item-icon" ng-src="{{getIconForType(selectedItem.type).data}}" width="64" height="64"><div ng-if="getIconForType(selectedItem.type).type == \'css\'" class="ng-spotlight-item-icon {{getIconForType(selectedItem.type).data}}"></div><div class="name">{{selectedItem.name}}</div></div>'
             };
 
             function addTemplates(templateDescriptors) {

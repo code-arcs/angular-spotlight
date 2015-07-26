@@ -83,13 +83,20 @@ angular.module('de.stekoe.angular.spotlight', [])
                             resetSearch();
                             break;
                         case KEY.ENTER:
-                            alert($scope.selectedItem.name);
+                            $scope.openResultItem();
                             break;
                     }
                 };
 
+                $scope.openResultCategory = function() {
+                    console.log($scope.selectedCategory);
+                };
+
                 $scope.openResultItem = function () {
-                    alert($scope.selectedItem.name);
+                    if($scope.selectedItem.href) {
+                        window.location.href = $scope.selectedItem.href;
+                        $ngSpotlightOverlay.hide();
+                    }
                 };
 
                 function resetSearch() {
@@ -125,6 +132,7 @@ angular.module('de.stekoe.angular.spotlight', [])
 
                                 if (isActive) {
                                     $scope.selectedItem = item;
+                                    $scope.selectedCategory = category;
                                     setSearchInputInfo(category.name);
                                 }
                             });
