@@ -24,6 +24,8 @@ __Angular Spotlight__
 
 ## Features
 
+- **click-handler:** adds click handler to results list
+  ([6670df68](https://github.com/SteKoe/angular-spotlight/commit/6670df68aeb5520c7e4308df8560eed349ccc3d5))
 - **karma:** adds basic directive tests
   ([f2c0d44e](https://github.com/SteKoe/angular-spotlight/commit/f2c0d44e2fbb95cde46a5024337fca9d0e4896cb))
 - **result-panel-templates:** allows users to specify templates via html file instead of inline html
