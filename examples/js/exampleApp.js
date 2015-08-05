@@ -1,5 +1,5 @@
 (function () {
-    angular.module('de.stekoe.angular.spotlight.example', ['de.stekoe.angular.spotlight'])
+    angular.module('de.devjs.angular.spotlight.example', ['de.devjs.angular.spotlight'])
         .config(function configuration(AngularSpotlightProvider) {
 
             searchOrchestrationGithubWiki();

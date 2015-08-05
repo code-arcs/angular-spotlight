@@ -1,4 +1,4 @@
-angular.module('de.stekoe.angular.spotlight')
+angular.module('de.devjs.angular.spotlight')
     .directive('spotlightDetails', ['$compile', 'AngularSpotlight', function ($compile, AngularSpotlight) {
 
         function link(scope, element) {

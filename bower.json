@@ -1,0 +1,17 @@
+{
+  "name": "angular-spotlight",
+  "version": "1.0.0",
+  "homepage": "https://github.com/SteKoe/angular-spotlight",
+  "authors": [
+    "Stephan Koeninger <mail@stekoe.de>"
+  ],
+  "description": "Mac OS X like Spotlight Overlay for displaying search results on a web page.",
+  "license": "Apache 2.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

@@ -1,4 +1,4 @@
-angular.module('de.stekoe.angular.spotlight')
+angular.module('de.devjs.angular.spotlight')
     .provider("AngularSpotlight", function () {
         var _iconConfig = iconConfig();
         var _detailsTemplateConfig = detailsTemplateConfig();

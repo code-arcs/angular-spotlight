@@ -8,7 +8,7 @@ describe('Spotlight Overlay', function () {
     it('throws an exception, when no search function is defined!', function () {
         var $compile, $rootScope;
 
-        module('de.stekoe.angular.spotlight');
+        module('de.devjs.angular.spotlight');
         inject(function (_$compile_, _$rootScope_) {
             $compile = _$compile_;
             $rootScope = _$rootScope_;
@@ -161,7 +161,7 @@ describe('Spotlight Overlay', function () {
     }
 
     function initWithSearchFunction() {
-        module('de.stekoe.angular.spotlight', function (AngularSpotlightProvider) {
+        module('de.devjs.angular.spotlight', function (AngularSpotlightProvider) {
             AngularSpotlightProvider.search = function ($http) {
                 return function (term) {
                     return $http.get('/test.json')

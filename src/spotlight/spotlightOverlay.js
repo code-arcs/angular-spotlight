@@ -1,4 +1,4 @@
-angular.module('de.stekoe.angular.spotlight', [])
+angular.module('de.devjs.angular.spotlight', [])
     .directive('spotlightOverlay', ['$timeout', '$http', '$compile', 'AngularSpotlight', function ($timeout, $http, $compile, AngularSpotlight) {
 
         const KEY = {

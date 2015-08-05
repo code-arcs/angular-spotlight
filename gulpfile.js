@@ -34,7 +34,7 @@ gulp.task('copy:static:example', function() {
 
 gulp.task('compile:angular:template', function () {
     return gulp.src('./src/spotlight/directive/*.html')
-        .pipe(angularTemplates({module: 'de.stekoe.angular.spotlight', basePath: 'spotlight/directive/'}))
+        .pipe(angularTemplates({module: 'de.devjs.angular.spotlight', basePath: 'spotlight/directive/'}))
         .pipe(gulp.dest('./src/spotlight/directive/'));
 });
 
