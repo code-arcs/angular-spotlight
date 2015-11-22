@@ -8,7 +8,7 @@
                 AngularSpotlightProvider.search = function ($http, $q) {
                     return function (term) {
                         var github = $http.get('https://api.github.com/search/repositories?sort=stars&order=desc&q=' + term);
-                        var wikipedia = $http.jsonp('http://en.wikipedia.org/w/api.php?callback=JSON_CALLBACK&format=json&action=query&list=search&srsearch=' + term);
+                        var wikipedia = $http.jsonp('https://en.wikipedia.org/w/api.php?callback=JSON_CALLBACK&format=json&action=query&list=search&srsearch=' + term);
 
                         return $q.all([github, wikipedia])
                             .then(function (responses) {
