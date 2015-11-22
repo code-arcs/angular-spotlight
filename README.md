@@ -7,11 +7,14 @@
 Spotlight is _the_ awesome search feature of Mac OS X.
 Now it is time to move this piece of software into the web area.
 
+## Running Example
+To see a working example of this angular tool, have a look at: http://cdn.rawgit.com/SteKoe/angular-spotlight/master/examples/. The example implements two search sources: One using Github-Search-API, the other one using Wikipedia (EN) Search API. 
+
 ## Data Source Structure
 The final result of this project is to have an angular directive which consumes a list of result items coming from any search service one can imagine (Lucene, Elastic Search, ...).
 The preliminary JSON format which is consumed by the directive is as follows:
 
-```json
+```js
 [
   {
     "name": "I am a category",
