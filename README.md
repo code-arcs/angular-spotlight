@@ -1,7 +1,7 @@
 # Angular Spotlight 
 
-[![Build Status](https://travis-ci.org/SteKoe/angular-spotlight.svg)](https://travis-ci.org/SteKoe/angular-spotlight)
-[![Dependency Status](https://david-dm.org/SteKoe/angular-spotlight.svg)](https://david-dm.org/SteKoe/angular-spotlight)
+[![Build Status](https://travis-ci.org/code-arcs/angular-spotlight.svg?branch=master)](https://travis-ci.org/code-arcs/angular-spotlight)
+[![Dependency Status](https://david-dm.org/code-arcs/angular-spotlight.svg)](https://david-dm.org/SteKoe/angular-spotlight)
 [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 Spotlight is _the_ awesome search feature of Mac OS X.
