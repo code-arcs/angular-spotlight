@@ -2,6 +2,7 @@ angular.module('de.devjs.angular.spotlight')
     .provider("AngularSpotlight", function () {
         var _iconConfig = iconConfig();
         var _detailsTemplateConfig = detailsTemplateConfig();
+        var _defaultSpotlightConfig = defaultSpotlightConfig();
 
         // === LE PUBLIC API ====================
         return {
@@ -10,12 +11,16 @@ angular.module('de.devjs.angular.spotlight')
             },
             addIcons: _iconConfig.addIcons,
             addTemplates: _detailsTemplateConfig.addTemplates,
+            setSearchInputInfoSearching: _defaultSpotlightConfig.setSearchInputInfoSearching,
+            setSearchInputInfoNoResults: _defaultSpotlightConfig.setSearchInputInfoNoResults,
             $get: ['$http', '$q', function ($http, $q) {
                 var that = this;
                 return {
                     search: that.search($http, $q),
                     getIconDescriptorForType: _iconConfig.getIconForType,
-                    getTemplateForType: _detailsTemplateConfig.getTemplateForType
+                    getTemplateForType: _detailsTemplateConfig.getTemplateForType,
+                    getSearchInputInfoSearching: _defaultSpotlightConfig.getSearchInputInfoSearching,
+                    getSearchInputInfoNoResults: _defaultSpotlightConfig.getSearchInputInfoNoResults
                 };
             }]
         };
@@ -76,6 +81,34 @@ angular.module('de.devjs.angular.spotlight')
             return {
                 addTemplates: addTemplates,
                 getTemplateForType: getTemplateForType
+            }
+        }
+
+        function defaultSpotlightConfig() {
+            var searchInputInfoSearching = 'Suchend ...';
+            var searchInputInfoNoResults = 'Keine Ergebnisse';
+
+            function setSearchInputInfoSearching(text) {
+                searchInputInfoSearching = text;
+            }
+
+            function getSearchInputInfoSearching() {
+                return searchInputInfoSearching;
+            }
+
+            function setSearchInputInfoNoResults(text) {
+                searchInputInfoNoResults = text;
+            }
+
+            function getSearchInputInfoNoResults() {
+                return searchInputInfoNoResults;
+            }
+
+            return {
+                setSearchInputInfoSearching: setSearchInputInfoSearching,
+                getSearchInputInfoSearching: getSearchInputInfoSearching,
+                setSearchInputInfoNoResults: setSearchInputInfoNoResults,
+                getSearchInputInfoNoResults: getSearchInputInfoNoResults,
             }
         }
     });

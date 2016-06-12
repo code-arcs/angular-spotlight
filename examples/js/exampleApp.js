@@ -5,6 +5,8 @@
             searchOrchestrationGithubWiki();
 
             function searchOrchestrationGithubWiki() {
+                AngularSpotlightProvider.setSearchInputInfoSearching("Searching ...");
+                AngularSpotlightProvider.setSearchInputInfoNoResults("No Results");
                 AngularSpotlightProvider.search = function ($http, $q) {
                     return function (term) {
                         var github = $http.get('https://api.github.com/search/repositories?sort=stars&order=desc&q=' + term);

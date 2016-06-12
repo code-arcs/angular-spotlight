@@ -83,7 +83,7 @@ angular.module('de.devjs.angular.spotlight', [])
 
         function controller() {
             return ['$scope', function ($scope) {
-                $scope.searchInputInfo = 'Keine Ergebnisse';
+                $scope.searchInputInfo = AngularSpotlight.getSearchInputInfoSearching();
 
                 $scope.search = function () {
                     if ($scope.searchTerm.length > 0) {
@@ -132,6 +132,7 @@ angular.module('de.devjs.angular.spotlight', [])
                  * @param $event
                  */
                 $scope.handleKeyDown = function ($event) {
+                    $scope.searchInputInfo = AngularSpotlight.getSearchInputInfoSearching();
                     switch ($event.keyCode) {
                         case KEY.UP:
                             $event.preventDefault();
@@ -165,7 +166,7 @@ angular.module('de.devjs.angular.spotlight', [])
                     $scope.selectedItem = undefined;
                     $scope.searchResultsCount = 0;
                     $scope.searchResults = [];
-                    $scope.searchInputInfo = undefined;
+                    $scope.searchInputInfo = AngularSpotlight.getSearchInputInfoSearching();
                     $scope.searchTerm = "";
                 }
 
@@ -204,12 +205,12 @@ angular.module('de.devjs.angular.spotlight', [])
                 }
 
                 function setSearchInputInfo(categoryName) {
-                    $scope.searchInputInfo = undefined;
+                    $scope.searchInputInfo = AngularSpotlight.getSearchInputInfoSearching();
 
                     if ($scope.searchTerm.length === 0) {
-                        $scope.searchInputInfo = undefined;
+                        $scope.searchInputInfo = AngularSpotlight.getSearchInputInfoSearching();
                     } else if ($scope.searchResultsCount === 0) {
-                        $scope.searchInputInfo = "Keine Ergebnisse";
+                        $scope.searchInputInfo = AngularSpotlight.getSearchInputInfoNoResults();
                     } else if ($scope.selectedItem) {
                         $scope.searchInputInfo = $scope.selectedItem.name + " - " + categoryName;
                     }
@@ -336,6 +337,7 @@ angular.module('de.devjs.angular.spotlight')
     .provider("AngularSpotlight", function () {
         var _iconConfig = iconConfig();
         var _detailsTemplateConfig = detailsTemplateConfig();
+        var _defaultSpotlightConfig = defaultSpotlightConfig();
 
         // === LE PUBLIC API ====================
         return {
@@ -344,12 +346,16 @@ angular.module('de.devjs.angular.spotlight')
             },
             addIcons: _iconConfig.addIcons,
             addTemplates: _detailsTemplateConfig.addTemplates,
+            setSearchInputInfoSearching: _defaultSpotlightConfig.setSearchInputInfoSearching,
+            setSearchInputInfoNoResults: _defaultSpotlightConfig.setSearchInputInfoNoResults,
             $get: ['$http', '$q', function ($http, $q) {
                 var that = this;
                 return {
                     search: that.search($http, $q),
                     getIconDescriptorForType: _iconConfig.getIconForType,
-                    getTemplateForType: _detailsTemplateConfig.getTemplateForType
+                    getTemplateForType: _detailsTemplateConfig.getTemplateForType,
+                    getSearchInputInfoSearching: _defaultSpotlightConfig.getSearchInputInfoSearching,
+                    getSearchInputInfoNoResults: _defaultSpotlightConfig.getSearchInputInfoNoResults
                 };
             }]
         };
@@ -410,6 +416,34 @@ angular.module('de.devjs.angular.spotlight')
             return {
                 addTemplates: addTemplates,
                 getTemplateForType: getTemplateForType
+            }
+        }
+
+        function defaultSpotlightConfig() {
+            var searchInputInfoSearching = 'Suchend ...';
+            var searchInputInfoNoResults = 'Keine Ergebnisse';
+
+            function setSearchInputInfoSearching(text) {
+                searchInputInfoSearching = text;
+            }
+
+            function getSearchInputInfoSearching() {
+                return searchInputInfoSearching;
+            }
+
+            function setSearchInputInfoNoResults(text) {
+                searchInputInfoNoResults = text;
+            }
+
+            function getSearchInputInfoNoResults() {
+                return searchInputInfoNoResults;
+            }
+
+            return {
+                setSearchInputInfoSearching: setSearchInputInfoSearching,
+                getSearchInputInfoSearching: getSearchInputInfoSearching,
+                setSearchInputInfoNoResults: setSearchInputInfoNoResults,
+                getSearchInputInfoNoResults: getSearchInputInfoNoResults,
             }
         }
     });
