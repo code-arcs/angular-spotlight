@@ -53,9 +53,15 @@ gulp.task('watch:sass', function () {
 
 gulp.task('compile:js', ['compile:angular:template'], function() {
     return gulp.src(['./vendors/**/*.js','./src/**/*.js'])
-        .pipe(concat('angularSpotlight.min.js'))
-        .pipe(uglify())
+        .pipe(concat('angularSpotlight.js'))
         .pipe(gulp.dest('./dist/'));
+});
+
+gulp.task('compress:js', ['compile:js'], function() {
+  return gulp.src('./dist/angularSpotlight.js')
+    .pipe(rename({suffix: '.min'}))
+    .pipe(uglify())
+    .pipe(gulp.dest('./dist/'));
 });
 
 gulp.task('build:example', ['build'], function(done) {
@@ -63,7 +69,7 @@ gulp.task('build:example', ['build'], function(done) {
 });
 
 gulp.task('build', function(done) {
-    runSequence('clear:dist', ['compile:js', 'compile:sass', 'copy:static'], done);
+    runSequence('clear:dist', ['compile:js', 'compress:js', 'compile:sass', 'copy:static'], done);
 });
 
 gulp.task('serve', serve({
