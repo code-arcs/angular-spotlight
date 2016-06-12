@@ -7,6 +7,7 @@ var angularTemplates = require('gulp-angular-templates');
 var del = require('del');
 var uglify = require('gulp-uglify');
 var runSequence = require('run-sequence');
+var serve = require('gulp-serve');
 
 gulp.task('clear:dist', function(done) {
     del('./dist', done);
@@ -64,3 +65,8 @@ gulp.task('build:example', ['build'], function(done) {
 gulp.task('build', function(done) {
     runSequence('clear:dist', ['compile:js', 'compile:sass', 'copy:static'], done);
 });
+
+gulp.task('serve', serve({
+  root: ['examples'],
+  port: 8001
+}));
