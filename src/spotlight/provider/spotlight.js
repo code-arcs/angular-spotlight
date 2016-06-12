@@ -13,6 +13,7 @@ angular.module('de.devjs.angular.spotlight')
             addTemplates: _detailsTemplateConfig.addTemplates,
             setSearchInputInfoSearching: _defaultSpotlightConfig.setSearchInputInfoSearching,
             setSearchInputInfoNoResults: _defaultSpotlightConfig.setSearchInputInfoNoResults,
+            setSpotlightPlaceholder: _defaultSpotlightConfig.setSpotlightPlaceholder,
             $get: ['$http', '$q', function ($http, $q) {
                 var that = this;
                 return {
@@ -20,7 +21,8 @@ angular.module('de.devjs.angular.spotlight')
                     getIconDescriptorForType: _iconConfig.getIconForType,
                     getTemplateForType: _detailsTemplateConfig.getTemplateForType,
                     getSearchInputInfoSearching: _defaultSpotlightConfig.getSearchInputInfoSearching,
-                    getSearchInputInfoNoResults: _defaultSpotlightConfig.getSearchInputInfoNoResults
+                    getSearchInputInfoNoResults: _defaultSpotlightConfig.getSearchInputInfoNoResults,
+                    getSpotlightPlaceholder: _defaultSpotlightConfig.getSpotlightPlaceholder
                 };
             }]
         };
@@ -87,6 +89,7 @@ angular.module('de.devjs.angular.spotlight')
         function defaultSpotlightConfig() {
             var searchInputInfoSearching = 'Suchend ...';
             var searchInputInfoNoResults = 'Keine Ergebnisse';
+            var spotlightPlaceholder = 'Spotlight-Suche';
 
             function setSearchInputInfoSearching(text) {
                 searchInputInfoSearching = text;
@@ -104,11 +107,21 @@ angular.module('de.devjs.angular.spotlight')
                 return searchInputInfoNoResults;
             }
 
+            function setSpotlightPlaceholder(text) {
+                spotlightPlaceholder = text;
+            }
+
+            function getSpotlightPlaceholder() {
+                return spotlightPlaceholder;
+            }
+
             return {
                 setSearchInputInfoSearching: setSearchInputInfoSearching,
                 getSearchInputInfoSearching: getSearchInputInfoSearching,
                 setSearchInputInfoNoResults: setSearchInputInfoNoResults,
                 getSearchInputInfoNoResults: getSearchInputInfoNoResults,
+                setSpotlightPlaceholder: setSpotlightPlaceholder,
+                getSpotlightPlaceholder: getSpotlightPlaceholder
             }
         }
     });

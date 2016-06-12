@@ -22,6 +22,7 @@ angular.module('de.devjs.angular.spotlight', [])
         function controller() {
             return ['$scope', function ($scope) {
                 $scope.searchInputInfo = AngularSpotlight.getSearchInputInfoSearching();
+                $scope.spotlightPlaceholder = AngularSpotlight.getSpotlightPlaceholder();
 
                 $scope.search = function () {
                     if ($scope.searchTerm.length > 0) {
