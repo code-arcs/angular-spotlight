@@ -63,7 +63,7 @@ gulp.task('compress:js', ['compile:js'], function() {
 });
 
 gulp.task('watch', function () {
-    return gulp.watch(['./src/**/*.scss', './src/**/*.js'], ['build:example']);
+    return gulp.watch(['./src/**/*.scss', './src/**/*.js', './examples/js/*.js'], ['build:example']);
 });
 
 gulp.task('build', function(done) {
