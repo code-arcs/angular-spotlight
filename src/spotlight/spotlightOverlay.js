@@ -4,7 +4,6 @@ angular.module('de.devjs.angular.spotlight', [])
         const KEY = {
             UP: 38,
             DOWN: 40,
-            SPACE: 32,
             ESC: 27,
             ENTER: 13
         };
@@ -201,7 +200,7 @@ angular.module('de.devjs.angular.spotlight', [])
 
             $(document)
                 .on('keydown', function (e) {
-                    if (e.ctrlKey && e.keyCode === KEY.SPACE) {
+                    if (e.ctrlKey && e.keyCode === AngularSpotlight.getSpotlightToggleCtrlKey()) {
                         e.preventDefault();
                         toggleOverlay();
                     }

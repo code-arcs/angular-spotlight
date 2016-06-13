@@ -66,7 +66,6 @@ angular.module('de.devjs.angular.spotlight', [])
         const KEY = {
             UP: 38,
             DOWN: 40,
-            SPACE: 32,
             ESC: 27,
             ENTER: 13
         };
@@ -263,7 +262,7 @@ angular.module('de.devjs.angular.spotlight', [])
 
             $(document)
                 .on('keydown', function (e) {
-                    if (e.ctrlKey && e.keyCode === KEY.SPACE) {
+                    if (e.ctrlKey && e.keyCode === AngularSpotlight.getSpotlightToggleCtrlKey()) {
                         e.preventDefault();
                         toggleOverlay();
                     }
@@ -350,6 +349,7 @@ angular.module('de.devjs.angular.spotlight')
             setSearchInputInfoSearching: _defaultSpotlightConfig.setSearchInputInfoSearching,
             setSearchInputInfoNoResults: _defaultSpotlightConfig.setSearchInputInfoNoResults,
             setSpotlightPlaceholder: _defaultSpotlightConfig.setSpotlightPlaceholder,
+            setSpotlightToggleCtrlKey: _defaultSpotlightConfig.setSpotlightToggleCtrlKey,
             $get: ['$http', '$q', function ($http, $q) {
                 var that = this;
                 return {
@@ -358,7 +358,8 @@ angular.module('de.devjs.angular.spotlight')
                     getTemplateForType: _detailsTemplateConfig.getTemplateForType,
                     getSearchInputInfoSearching: _defaultSpotlightConfig.getSearchInputInfoSearching,
                     getSearchInputInfoNoResults: _defaultSpotlightConfig.getSearchInputInfoNoResults,
-                    getSpotlightPlaceholder: _defaultSpotlightConfig.getSpotlightPlaceholder
+                    getSpotlightPlaceholder: _defaultSpotlightConfig.getSpotlightPlaceholder,
+                    getSpotlightToggleCtrlKey: _defaultSpotlightConfig.getSpotlightToggleCtrlKey
                 };
             }]
         };
@@ -423,9 +424,11 @@ angular.module('de.devjs.angular.spotlight')
         }
 
         function defaultSpotlightConfig() {
+            const KEY_SPACE = 32;
             var searchInputInfoSearching = 'Suchend ...';
             var searchInputInfoNoResults = 'Keine Ergebnisse';
             var spotlightPlaceholder = 'Spotlight-Suche';
+            var spotlightToggleCtrlKey = KEY_SPACE;
 
             function setSearchInputInfoSearching(text) {
                 searchInputInfoSearching = text;
@@ -451,13 +454,23 @@ angular.module('de.devjs.angular.spotlight')
                 return spotlightPlaceholder;
             }
 
+            function setSpotlightToggleCtrlKey(key_code) {
+                spotlightToggleCtrlKey = key_code;
+            }
+
+            function getSpotlightToggleCtrlKey() {
+                return spotlightToggleCtrlKey;
+            }
+
             return {
                 setSearchInputInfoSearching: setSearchInputInfoSearching,
                 getSearchInputInfoSearching: getSearchInputInfoSearching,
                 setSearchInputInfoNoResults: setSearchInputInfoNoResults,
                 getSearchInputInfoNoResults: getSearchInputInfoNoResults,
                 setSpotlightPlaceholder: setSpotlightPlaceholder,
-                getSpotlightPlaceholder: getSpotlightPlaceholder
+                getSpotlightPlaceholder: getSpotlightPlaceholder,
+                setSpotlightToggleCtrlKey: setSpotlightToggleCtrlKey,
+                getSpotlightToggleCtrlKey: getSpotlightToggleCtrlKey
             }
         }
     });
