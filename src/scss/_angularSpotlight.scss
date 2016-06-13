@@ -22,14 +22,16 @@ $overlay-border-color: none !default;
 
 $font-family: Verdana, 'Lucida Sans Unicode', sans-serif !default;
 
+// Responsive
+$spotlight-responsive-width: 680px;
+
 .ng-spotlight {
   &.ng-spotlight-overlay {
     position: absolute;
     top: 20%;
-    left: 50%;
+    left: 1%;
     z-index: 2147483647; // Le Max Int32 ;)
-    margin-left: -340px;
-    width: 680px;
+    width: 98%;
     display: none;
     font-size: 12px;
     letter-spacing: 0.3px;
@@ -43,6 +45,12 @@ $font-family: Verdana, 'Lucida Sans Unicode', sans-serif !default;
     border-radius: 6px;
     overflow: hidden;
 
+    @media only screen and (min-width: $spotlight-responsive-width) {
+      left: 50%;
+      margin-left: -340px;
+      width: 680px;
+    }
+
     .ng-spotlight-searchbar {
       z-index: 10;
       position: relative;
@@ -53,11 +61,16 @@ $font-family: Verdana, 'Lucida Sans Unicode', sans-serif !default;
         $magnifier-height: 22px;
         $magnifier-margin: (55 - $magnifier-height) / 2;
 
-        float: left;
+        position: absolute;
         height: 22px;
         width: 22px;
         margin: $magnifier-margin;
         background-size: cover;
+
+        @media only screen and (min-width: $spotlight-responsive-width) {
+          position: static;
+          float: left;
+        }
 
         svg {
           fill: $icon-magnifier-color;
@@ -65,21 +78,31 @@ $font-family: Verdana, 'Lucida Sans Unicode', sans-serif !default;
       }
 
       .ng-spotlight-input {
-        float: left;
         background-color: transparent;
         font-size: 1.7em;
         padding: 0;
         margin: 0;
         outline: none !important;
         height: 55px;
-        width: 350px;
-        max-width: 350px;
+        max-width: 100% !important;
         border: none !important;
         color: $searchbar-input-font-color;
         font-weight: 100;
-
+        padding-left: 55px;
+        padding-right: 50px;
+        box-sizing: border-box;
         &.empty {
-          width: 400px !important;
+          width: 100% !important;
+        }
+
+        @media only screen and (min-width: $spotlight-responsive-width) {
+          float: left;
+          max-width: 350px !important;
+          box-sizing: content-box;
+          padding: 0;
+          &.empty {
+            width: 400px !important;
+          }
         }
 
         &:-ms-input-placeholder {
@@ -97,11 +120,16 @@ $font-family: Verdana, 'Lucida Sans Unicode', sans-serif !default;
       }
 
       .ng-spotlight-input-after {
+        display: none;
         color: $placeholder-font-color;
         line-height: 55px;
+        @media only screen and (min-width: $spotlight-responsive-width) {
+          display: block;
+        }
       }
 
       .ng-spotlight-results-icon {
+        display: none;
         position: absolute;
         top: (55px - 32px)/2;
         right: 20px;
@@ -111,6 +139,10 @@ $font-family: Verdana, 'Lucida Sans Unicode', sans-serif !default;
         font-size: 31px;
         color: $result-list-item-font-color;
         background-size: cover;
+
+        @media only screen and (min-width: $spotlight-responsive-width) {
+          display: block;
+        }
       }
     }
     .ng-spotlight-results-panel {
@@ -120,12 +152,16 @@ $font-family: Verdana, 'Lucida Sans Unicode', sans-serif !default;
       .ng-spotlight-results-list {
         border-right: 1px solid $results-list-border-color;
         position: absolute;
-        width: 290px;
+        width: 100%;
         height: calc(100% - 55px);
         overflow: hidden;
         overflow-y: auto;
         user-select: none;
         background-color: $results-list-bg;
+
+        @media only screen and (min-width: $spotlight-responsive-width) {
+          width: 290px;
+        }
 
         ul {
           min-height: calc(100% - 55px);
@@ -178,11 +214,16 @@ $font-family: Verdana, 'Lucida Sans Unicode', sans-serif !default;
         }
       }
       .ng-spotlight-results-detail {
+        display: none;
         margin-left: 290px;
         width: 390px;
         height: 375px;
         color: $results-detail-font-color;
         background-color: $results-detail-bg;
+
+        @media only screen and (min-width: $spotlight-responsive-width) {
+          display: block;
+        }
 
         a {
           color: $results-detail-font-color;
