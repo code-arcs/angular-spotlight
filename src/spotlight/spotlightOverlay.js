@@ -70,7 +70,6 @@ angular.module('de.devjs.angular.spotlight', [])
                  * @param $event
                  */
                 $scope.handleKeyDown = function ($event) {
-                    $scope.searchInputInfo = AngularSpotlight.getSearchInputInfoSearching();
                     switch ($event.keyCode) {
                         case KEY.UP:
                             $event.preventDefault();
@@ -104,7 +103,7 @@ angular.module('de.devjs.angular.spotlight', [])
                     $scope.selectedItem = undefined;
                     $scope.searchResultsCount = 0;
                     $scope.searchResults = [];
-                    $scope.searchInputInfo = AngularSpotlight.getSearchInputInfoSearching();
+                    $scope.searchInputInfo = undefined;
                     $scope.searchTerm = "";
                 }
 
@@ -143,8 +142,6 @@ angular.module('de.devjs.angular.spotlight', [])
                 }
 
                 function setSearchInputInfo(categoryName) {
-                    $scope.searchInputInfo = AngularSpotlight.getSearchInputInfoSearching();
-
                     if ($scope.searchTerm.length === 0) {
                         $scope.searchInputInfo = AngularSpotlight.getSearchInputInfoSearching();
                     } else if ($scope.searchResultsCount === 0) {
