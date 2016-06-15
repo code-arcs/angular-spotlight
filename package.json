@@ -21,10 +21,11 @@
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.0.3",
     "gulp-uglify": "^1.2.0",
+    "gulp-connect": "^4.0.0",
     "jasmine": "^2.3.1",
     "jasmine-core": "^2.3.4",
     "karma-jasmine": "^0.3.6",
-    "karma-phantomjs-launcher": "^0.2.0",
+    "karma-phantomjs-launcher": "^1.0.0",
     "phantomjs": "^1.9.17",
     "run-sequence": "^1.1.2"
   },

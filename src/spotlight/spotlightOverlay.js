@@ -4,7 +4,6 @@ angular.module('de.devjs.angular.spotlight', [])
         const KEY = {
             UP: 38,
             DOWN: 40,
-            SPACE: 32,
             ESC: 27,
             ENTER: 13
         };
@@ -21,7 +20,8 @@ angular.module('de.devjs.angular.spotlight', [])
 
         function controller() {
             return ['$scope', function ($scope) {
-                $scope.searchInputInfo = 'Keine Ergebnisse';
+                $scope.searchInputInfo = AngularSpotlight.getSearchInputInfoSearching();
+                $scope.spotlightPlaceholder = AngularSpotlight.getSpotlightPlaceholder();
 
                 $scope.search = function () {
                     if ($scope.searchTerm.length > 0) {
@@ -142,12 +142,10 @@ angular.module('de.devjs.angular.spotlight', [])
                 }
 
                 function setSearchInputInfo(categoryName) {
-                    $scope.searchInputInfo = undefined;
-
                     if ($scope.searchTerm.length === 0) {
-                        $scope.searchInputInfo = undefined;
+                        $scope.searchInputInfo = AngularSpotlight.getSearchInputInfoSearching();
                     } else if ($scope.searchResultsCount === 0) {
-                        $scope.searchInputInfo = "Keine Ergebnisse";
+                        $scope.searchInputInfo = AngularSpotlight.getSearchInputInfoNoResults();
                     } else if ($scope.selectedItem) {
                         $scope.searchInputInfo = $scope.selectedItem.name + " - " + categoryName;
                     }
@@ -199,7 +197,7 @@ angular.module('de.devjs.angular.spotlight', [])
 
             $(document)
                 .on('keydown', function (e) {
-                    if (e.ctrlKey && e.keyCode === KEY.SPACE) {
+                    if (e.ctrlKey && e.keyCode === AngularSpotlight.getSpotlightToggleCtrlKey()) {
                         e.preventDefault();
                         toggleOverlay();
                     }

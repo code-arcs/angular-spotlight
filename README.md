@@ -1,3 +1,32 @@
+# CHANGELOG
+
+## Add gulp-connect for serving the example on HTTP
+
+Run `gulp serve` and you could try the example at http://localhost:8001.
+
+## Livereload when editing the following files
+
+1. ./src/**/*.scss
+1. ./src/**/*.js
+1. ./examples/js/*.js
+
+## Responsive Spotlight Bar
+
+Full width spotlight bar when screen width is smaller than the responsive breakpoint. The search **result details**, **searching text**, **no results text** and **results icon** would be hidden.
+
+## Allow the following configurations on Provider
+
+1. Default search placeholder text
+1. Default searching text
+1. Default no result text
+1. Default toggle key (To toggle the spotlight bar: `Ctrl + 'toggle key'`)
+
+## Add non-minified angularSpotlight.js to the dist folder
+
+So user could select this non-minified version for debugging in their app.
+
+---
+
 # Angular Spotlight 
 
 [![Build Status](https://travis-ci.org/code-arcs/angular-spotlight.svg?branch=master)](https://travis-ci.org/code-arcs/angular-spotlight)

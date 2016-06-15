@@ -2,6 +2,7 @@ angular.module('de.devjs.angular.spotlight')
     .provider("AngularSpotlight", function () {
         var _iconConfig = iconConfig();
         var _detailsTemplateConfig = detailsTemplateConfig();
+        var _defaultSpotlightConfig = defaultSpotlightConfig();
 
         // === LE PUBLIC API ====================
         return {
@@ -10,12 +11,20 @@ angular.module('de.devjs.angular.spotlight')
             },
             addIcons: _iconConfig.addIcons,
             addTemplates: _detailsTemplateConfig.addTemplates,
+            setSearchInputInfoSearching: _defaultSpotlightConfig.setSearchInputInfoSearching,
+            setSearchInputInfoNoResults: _defaultSpotlightConfig.setSearchInputInfoNoResults,
+            setSpotlightPlaceholder: _defaultSpotlightConfig.setSpotlightPlaceholder,
+            setSpotlightToggleCtrlKey: _defaultSpotlightConfig.setSpotlightToggleCtrlKey,
             $get: ['$http', '$q', function ($http, $q) {
                 var that = this;
                 return {
                     search: that.search($http, $q),
                     getIconDescriptorForType: _iconConfig.getIconForType,
-                    getTemplateForType: _detailsTemplateConfig.getTemplateForType
+                    getTemplateForType: _detailsTemplateConfig.getTemplateForType,
+                    getSearchInputInfoSearching: _defaultSpotlightConfig.getSearchInputInfoSearching,
+                    getSearchInputInfoNoResults: _defaultSpotlightConfig.getSearchInputInfoNoResults,
+                    getSpotlightPlaceholder: _defaultSpotlightConfig.getSpotlightPlaceholder,
+                    getSpotlightToggleCtrlKey: _defaultSpotlightConfig.getSpotlightToggleCtrlKey
                 };
             }]
         };
@@ -76,6 +85,57 @@ angular.module('de.devjs.angular.spotlight')
             return {
                 addTemplates: addTemplates,
                 getTemplateForType: getTemplateForType
+            }
+        }
+
+        function defaultSpotlightConfig() {
+            const KEY_SPACE = 32;
+            var searchInputInfoSearching = 'Suchend ...';
+            var searchInputInfoNoResults = 'Keine Ergebnisse';
+            var spotlightPlaceholder = 'Spotlight-Suche';
+            var spotlightToggleCtrlKey = KEY_SPACE;
+
+            function setSearchInputInfoSearching(text) {
+                searchInputInfoSearching = text;
+            }
+
+            function getSearchInputInfoSearching() {
+                return searchInputInfoSearching;
+            }
+
+            function setSearchInputInfoNoResults(text) {
+                searchInputInfoNoResults = text;
+            }
+
+            function getSearchInputInfoNoResults() {
+                return searchInputInfoNoResults;
+            }
+
+            function setSpotlightPlaceholder(text) {
+                spotlightPlaceholder = text;
+            }
+
+            function getSpotlightPlaceholder() {
+                return spotlightPlaceholder;
+            }
+
+            function setSpotlightToggleCtrlKey(key_code) {
+                spotlightToggleCtrlKey = key_code;
+            }
+
+            function getSpotlightToggleCtrlKey() {
+                return spotlightToggleCtrlKey;
+            }
+
+            return {
+                setSearchInputInfoSearching: setSearchInputInfoSearching,
+                getSearchInputInfoSearching: getSearchInputInfoSearching,
+                setSearchInputInfoNoResults: setSearchInputInfoNoResults,
+                getSearchInputInfoNoResults: getSearchInputInfoNoResults,
+                setSpotlightPlaceholder: setSpotlightPlaceholder,
+                getSpotlightPlaceholder: getSpotlightPlaceholder,
+                setSpotlightToggleCtrlKey: setSpotlightToggleCtrlKey,
+                getSpotlightToggleCtrlKey: getSpotlightToggleCtrlKey
             }
         }
     });

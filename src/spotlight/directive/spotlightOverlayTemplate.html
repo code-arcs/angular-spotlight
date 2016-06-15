@@ -11,7 +11,7 @@
             </svg>
         </div>
 
-        <input class="ng-spotlight-input" ng-class="{'empty': searchTerm.length === 0}" type="text" placeholder="Spotlight-Suche" ng-model="searchTerm" ng-change="search()" ng-model-options="{debounce: 250}"/>
+        <input class="ng-spotlight-input" ng-class="{'empty': searchTerm.length === 0}" type="text" placeholder="{{spotlightPlaceholder}}" ng-model="searchTerm" ng-change="search()" ng-model-options="{debounce: 250}"/>
 
         <div class="ng-spotlight-input-after" ng-if="searchInputInfo.length > 0  && searchTerm.length > 0">&mdash; {{searchInputInfo}}</div>
         <div class="ng-spotlight-results-icon" ng-if="searchTerm.length > 0">

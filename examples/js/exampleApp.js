@@ -2,6 +2,15 @@
     angular.module('de.devjs.angular.spotlight.example', ['de.devjs.angular.spotlight'])
         .config(function configuration(AngularSpotlightProvider) {
 
+            spotlightConfig();
+            function spotlightConfig() {
+                var toggleKey = 66; // Letter B
+                AngularSpotlightProvider.setSearchInputInfoSearching("Searching ...");
+                AngularSpotlightProvider.setSearchInputInfoNoResults("No Results");
+                AngularSpotlightProvider.setSpotlightPlaceholder("Spotlight Search");
+                AngularSpotlightProvider.setSpotlightToggleCtrlKey(toggleKey); // Ctrl + toggleKey
+            }
+
             searchOrchestrationGithubWiki();
 
             function searchOrchestrationGithubWiki() {

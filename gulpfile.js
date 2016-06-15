@@ -7,6 +7,7 @@ var angularTemplates = require('gulp-angular-templates');
 var del = require('del');
 var uglify = require('gulp-uglify');
 var runSequence = require('run-sequence');
+var connect = require('gulp-connect');
 
 gulp.task('clear:dist', function(done) {
     del('./dist', done);
@@ -43,24 +44,45 @@ gulp.task('compile:sass', function() {
         .pipe(sass().on('error', sass.logError))
         .pipe(minifyCss())
         .pipe(rename({suffix: '.min'}))
-        .pipe(gulp.dest('./dist/'));
-});
-
-gulp.task('watch:sass', function () {
-    return gulp.watch('./src/**/*.scss', ['compile:sass']);
+        .pipe(gulp.dest('./dist/'))
+        .pipe(connect.reload());
 });
 
 gulp.task('compile:js', ['compile:angular:template'], function() {
     return gulp.src(['./vendors/**/*.js','./src/**/*.js'])
-        .pipe(concat('angularSpotlight.min.js'))
-        .pipe(uglify())
+        .pipe(concat('angularSpotlight.js'))
         .pipe(gulp.dest('./dist/'));
+});
+
+gulp.task('compress:js', ['compile:js'], function() {
+  return gulp.src('./dist/angularSpotlight.js')
+    .pipe(rename({suffix: '.min'}))
+    .pipe(uglify())
+    .pipe(gulp.dest('./dist/'))
+    .pipe(connect.reload());
+});
+
+gulp.task('watch', function () {
+    return gulp.watch(['./src/**/*.scss', './src/**/*.js', './examples/js/*.js'], ['build:example']);
+});
+
+gulp.task('build', function(done) {
+    runSequence('clear:dist', ['compile:js', 'compress:js', 'compile:sass', 'copy:static'], done);
 });
 
 gulp.task('build:example', ['build'], function(done) {
     runSequence('clear:example', 'copy:static:example', done);
 });
 
-gulp.task('build', function(done) {
-    runSequence('clear:dist', ['compile:js', 'compile:sass', 'copy:static'], done);
+gulp.task('connect', ['build:example'], function() {
+  connect.server({
+    root: 'examples',
+    port: 8001,
+    livereload: true,
+    open: {
+      browser: 'Google Chrome'
+    }
+  });
 });
+
+gulp.task('serve', ['connect', 'watch']);
